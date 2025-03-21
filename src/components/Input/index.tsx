@@ -4,6 +4,7 @@ import { InputContainer, ToggleButton } from './styles'
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
     label?: string
+    type?: string
 }
 
 const Input = ({ type, label, ...rest }: InputProps) => {
@@ -12,7 +13,7 @@ const Input = ({ type, label, ...rest }: InputProps) => {
         <InputContainer>
             <label>{label}</label>
             <input
-                type={'text'}
+                type={type ? type : 'text'}
                 {...rest}
             />
         </InputContainer>

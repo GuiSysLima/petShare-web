@@ -13,6 +13,7 @@ export const InputContainer = styled.div`
         padding-right: 3rem;
         padding-left: 1rem;
         border-radius: 1rem;
+        border-style: solid;
     }
 
     label {
