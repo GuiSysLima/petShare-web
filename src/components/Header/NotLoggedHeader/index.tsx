@@ -1,10 +1,10 @@
 import React from 'react'
-import { AllOptions, Hr, HrContainer, LeftOptions, NavigationBar, NavItem, NavItems, RightOptions } from './styles'
-import Logo from '../../assets/Logo.png'
-import Button from '../Button';
+import Logo from '../../../assets/Logo.png'
 import { FaHeart } from 'react-icons/fa';
+import Button from '../../Button';
+import { AllOptions, Hr, HrContainer, LeftOptions, NavigationBar, NavItem, NavItems, RightOptions } from './styles';
 
-const Header = () => {
+const NotLoggedHeader = () => {
     return (
         <>
             <header>
@@ -35,4 +35,4 @@ const Header = () => {
     );
 }
 
-export default Header
+export default NotLoggedHeader;
