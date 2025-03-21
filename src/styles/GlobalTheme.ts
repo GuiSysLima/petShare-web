@@ -61,6 +61,7 @@ export const GlobalTheme = createGlobalStyle`
     color: var(--dark-gray2);
     -webkit-font-smoothing: antialiased;
     font-family: 'Poppins', sans-serif;
+    padding: 0rem 5rem;
     & pre {
       background: var(--white);
       color: var(--dark-gray);

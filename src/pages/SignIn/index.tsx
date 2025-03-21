@@ -1,17 +1,17 @@
 import React from 'react'
-import Header from '../../components/Header'
 import AnimalsImage from '../../assets/Animals.png'
 import { FormContainer, LoginContainer, RightContainer } from './styles'
 import Button from '../../components/Button'
 import { FaHeart } from 'react-icons/fa'
 import PasswordInput from '../../components/PasswordInput'
 import Input from '../../components/Input'
+import NotLoggedHeader from '../../components/Header/NotLoggedHeader'
 
 const SignIn = () => {
 
     return (
         <>
-            <Header />
+            <NotLoggedHeader />
             <LoginContainer>
                 <RightContainer>
                     <h1>Login</h1>
