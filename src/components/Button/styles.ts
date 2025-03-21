@@ -11,6 +11,7 @@ export const StyledButton = styled.button<StyledButtonProps>`
     border: none;
     padding: 1.5rem 4rem;
     font-size: 16px;
+    font-weight: 600;
     cursor: pointer;
     border-radius: ${props => props.rounded ? '50px' : '4px'};
     display: flex;
