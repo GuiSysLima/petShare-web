@@ -29,6 +29,10 @@ export const RightOptions = styled.div`
     align-items: center;
 `;
 
+export const NavLogo = styled.img`
+    cursor: pointer;
+`
+
 export const NavItems = styled.ul`
     display: flex;
     align-items: center;

@@ -1,5 +1,5 @@
 
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import Home from '../pages/Logged/Home';
 import DonateType from '../pages/Logged/DonateType';
 import DonateAnimal from '../pages/Logged/DonateAnimal';
@@ -14,6 +14,7 @@ const PetSharePrivateRoutes = () => {
             <Route path='/DonateType' element={<DonateType />} />
             <Route path='/DonateAnimal' element={<DonateAnimal />} />
             <Route path='/DonateItem' element={<DonateItem />} />
+            <Route path='*' element={<Navigate to='/home' />} />
         </Routes>
     );
 };

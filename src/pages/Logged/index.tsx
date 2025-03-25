@@ -4,10 +4,10 @@ import LoggedHeader from '../../components/Header/LoggedHeader'
 import PetSharePrivateRoutes from '../../routes/privateRoute'
 import Button from '../../components/Button'
 import { MdArrowBackIos } from 'react-icons/md'
+import { useNavigate } from 'react-router-dom'
 
 const PetShare = () => {
-
-    console.log(window.location.pathname)
+    const navigate = useNavigate();
 
     return (
         <>
@@ -18,7 +18,7 @@ const PetShare = () => {
                         rounded
                         icon={<MdArrowBackIos color='white' />}
                         style={{ backgroundColor: '#37383F', width: '12rem' }}
-                        onClick={() => window.history.back()}
+                        onClick={() => navigate(-1)}
                     >Voltar</Button>}
                 <PetSharePrivateRoutes />
             </Container>

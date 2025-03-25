@@ -11,8 +11,6 @@ const AnimalCard = ({ id }: Animal) => {
 
     const navigate = useNavigate();
 
-
-
     return (
         <>
             <Container onClick={() => navigate(`/animal`)}>
