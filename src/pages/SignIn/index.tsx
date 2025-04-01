@@ -17,7 +17,7 @@ const SignIn = () => {
                     <h1>Login</h1>
                     <FormContainer>
                         <div>
-                            <Input label='Email' />
+                            <Input name='email' label='Email' />
                         </div>
                         <div>
                             <PasswordInput label='Senha' />
