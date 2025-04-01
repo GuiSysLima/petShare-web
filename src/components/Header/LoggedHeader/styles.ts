@@ -27,6 +27,7 @@ export const RightOptions = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 2rem;
 `;
 
 export const NavLogo = styled.img`

@@ -1,21 +1,25 @@
-import React, { useState, InputHTMLAttributes } from 'react'
-import { FaEye, FaEyeSlash } from 'react-icons/fa'
-import { InputContainer, ToggleButton } from './styles'
+import { InputHTMLAttributes } from 'react'
+import { useFormContext } from 'react-hook-form'
+import { InputContainer } from './styles'
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+    name: string
     label?: string
-    type?: string
 }
 
-const Input = ({ type, label, ...rest }: InputProps) => {
+const Input = ({ name, label, type = 'text', ...rest }: InputProps) => {
+    const {
+        register,
+        formState: { errors }
+    } = useFormContext()
+
+    const error = errors[name]?.message as string | undefined
 
     return (
         <InputContainer>
-            <label>{label}</label>
-            <input
-                type={type ? type : 'text'}
-                {...rest}
-            />
+            {label && <label htmlFor={name}>{label}</label>}
+            <input id={name} type={type} {...register(name)} {...rest} />
+            {error && <span style={{ color: 'red', fontSize: '0.8rem' }}>{error}</span>}
         </InputContainer>
     )
 }
