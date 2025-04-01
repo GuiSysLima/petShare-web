@@ -5,26 +5,56 @@ import Dropzone from '../../../components/Dropzone'
 import Input from '../../../components/Input'
 import TextArea from '../../../components/TextArea'
 import { BiSolidDonateHeart } from 'react-icons/bi'
+import { FormProvider, useForm } from 'react-hook-form'
+import Radio from '../../../components/Radio'
+import Select from '../../../components/Select'
 
 const DonateAnimal = () => {
+
+    const methods = useForm()
+
+    const onSubmit = (data: any) => {
+
+        console.log(data)
+    }
+
+    const today = new Date().toISOString().split('T')[0]
+
     return (
-        <>
+        <FormProvider {...methods}>
             <Container>
                 <DropzoneContainer>
-                    <Dropzone />
+                    <Dropzone name='image' />
                 </DropzoneContainer>
                 <FormContainer>
-                    <Input label='Nome' placeholder='Nome do animal' />
-                    <Input label='Raça' placeholder='Raça do animal' />
-                    <Input label='Idade' type='date' placeholder='Idade do animal' />
-                    <Input label='Sexo' placeholder='Sexo do animal' />
-                    <Input label='Porte' placeholder='Porte do animal' />
-                    <TextArea label='Descrição' placeholder='Descrição do animal' />
-                    <TextArea label='Vacinas' placeholder='Vacinas do animal' />
-                    <Button rounded primary icon={<BiSolidDonateHeart size={25} />} style={{ width: '100%' }} >Confirmar Doação</Button>
+                    <Input name='name' label='Nome' placeholder='Nome do animal' />
+                    <Input name='race' label='Raça' placeholder='Raça do animal' />
+                    <Input name='bornDate' label='Idade' type='date' max={today} placeholder='Idade do animal' />
+                    <Radio
+                        name='sex'
+                        label='Sexo do animal'
+                        options={[
+                            { label: 'Macho', value: 'male' },
+                            { label: 'Fêmea', value: 'female' },
+                        ]}
+                    />
+                    <Select
+                        name='size'
+                        label='Porte do animal'
+                        options={[
+                            { label: 'Pequeno', value: 'small' },
+                            { label: 'Médio', value: 'medium' },
+                            { label: 'Grande', value: 'large' },
+                        ]}
+                    />
+                    <TextArea name='observations' label='Descrição' placeholder='Descrição do animal' />
+                    <TextArea name='medicalNotes' label='Vacinas' placeholder='Vacinas do animal' />
+                    <Button rounded primary icon={<BiSolidDonateHeart size={25} />} style={{ width: '100%' }} onClick={methods.handleSubmit(onSubmit)} >
+                        Confirmar Doação
+                    </Button>
                 </FormContainer>
             </Container>
-        </>
+        </FormProvider>
     )
 }
 

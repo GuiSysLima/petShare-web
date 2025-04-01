@@ -16,7 +16,6 @@ export const Container = styled.div`
 
 export const DropzoneContainer = styled.div`
     width: 100%;
-    height: 60rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -32,9 +31,5 @@ export const FormContainer = styled.form`
     padding: 3rem 2rem;
     background-color: white;
     border-radius: 1rem;
-
-    & input, textarea {
-        width: 70rem; !important;
-    }
 `;
 
