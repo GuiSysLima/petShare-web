@@ -1,35 +1,19 @@
-import React from 'react'
-import AnimalCard from '../../../components/AnimalCard'
-import { AnimalsContainer } from './styles'
+import Tabs, { Tab } from '../../../components/Tabs'
+import TabAnimals from './TabAnimals'
 
 const Home = () => {
     return (
-        <AnimalsContainer>
-            <AnimalCard />
-            <AnimalCard />
-            <AnimalCard />
-            <AnimalCard />
-            <AnimalCard />
-            <AnimalCard />
-            <AnimalCard />
-            <AnimalCard />
-            <AnimalCard />
-            <AnimalCard />
-            <AnimalCard />
-            <AnimalCard />
-            <AnimalCard />
-            <AnimalCard />
-            <AnimalCard />
-            <AnimalCard />
-            <AnimalCard />
-            <AnimalCard />
-            <AnimalCard />
-            <AnimalCard />
-            <AnimalCard />
-            <AnimalCard />
-            <AnimalCard />
-            <AnimalCard />
-        </AnimalsContainer>
+        <Tabs>
+            <Tab label="Animais para adoção">
+                <TabAnimals />
+            </Tab>
+            <Tab label="Itens para adoção">
+                <div>Itens para adoção</div>
+            </Tab>
+            <Tab label="Solicitações de ajuda">
+                <div>Solicitações de ajuda</div>
+            </Tab>
+        </Tabs>
     )
 }
 
