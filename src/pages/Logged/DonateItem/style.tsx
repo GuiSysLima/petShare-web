@@ -16,7 +16,6 @@ export const Container = styled.div`
 
 export const DropzoneContainer = styled.div`
     width: 100%;
-    height: 60rem;
     display: flex;
     align-items: center;
     justify-content: center;
