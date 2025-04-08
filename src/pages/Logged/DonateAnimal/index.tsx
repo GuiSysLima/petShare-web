@@ -8,17 +8,78 @@ import { BiSolidDonateHeart } from 'react-icons/bi'
 import { FormProvider, useForm } from 'react-hook-form'
 import Radio from '../../../components/Radio'
 import Select from '../../../components/Select'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Navigate, useNavigate, useSearchParams } from 'react-router-dom'
+import { PostDonateAnimal } from '../../../services/queries/donateAnimals'
+import { Animal, DonateAnimalPayload } from '../../../services/queries/donateAnimals/interface'
+import { useMutation } from '@tanstack/react-query'
+
+export const donateAnimalSchema = z.object({
+    name: z.string().min(1, 'Nome é obrigatório'),
+    race: z.string().min(1, 'Raça é obrigatória'),
+    bornDate: z.string().min(1, 'Data de nascimento é obrigatória'),
+    sex: z.enum(['male', 'female'], { required_error: 'Sexo é obrigatório' }),
+    size: z.enum(['small', 'medium', 'large']),
+    observations: z.string(),
+    medicalNotes: z.string(),
+    image: z.any().optional(),
+})
+
+export type DonateAnimalFormData = z.infer<typeof donateAnimalSchema>
 
 const DonateAnimal = () => {
 
-    const methods = useForm()
+    const [searchParams] = useSearchParams()
+    const category = searchParams.get('category')
+    const validCategories = ['dog', 'cat', 'rodent', 'bird', 'reptile', 'other']
 
-    const onSubmit = (data: any) => {
+    const navigate = useNavigate()
 
-        console.log(data)
-    }
+    const methods = useForm<DonateAnimalFormData>({
+        resolver: zodResolver(donateAnimalSchema),
+    })
+
+    const { setValue, handleSubmit } = methods
 
     const today = new Date().toISOString().split('T')[0]
+
+    if (!category || !validCategories.includes(category)) {
+        return <Navigate to="/DonateType" replace />
+    }
+
+    const mutation = useMutation({
+        mutationFn: (payload: DonateAnimalPayload) => PostDonateAnimal(payload),
+        onSuccess: () => {
+            navigate('/success?type=donate')
+        },
+        onError: () => {
+            alert('Erro ao cadastrar doação.')
+        },
+    })
+
+    const onSubmit = (data: DonateAnimalFormData) => {
+        const payload = {
+            animal: {
+                name: data.name,
+                race: data.race,
+                bornDate: data.bornDate,
+                observations: data.observations,
+                medicalNotes: data.medicalNotes,
+                sex: data.sex,
+                size: data.size,
+                category: category as Animal['category'],
+            },
+            userId: 1,
+            post: {
+                images: data.image.path,
+            },
+        }
+
+        console.log(payload)
+        mutation.mutate(payload)
+    }
+
 
     return (
         <FormProvider {...methods}>
@@ -49,7 +110,7 @@ const DonateAnimal = () => {
                     />
                     <TextArea name='observations' label='Descrição' placeholder='Descrição do animal' />
                     <TextArea name='medicalNotes' label='Vacinas' placeholder='Vacinas do animal' />
-                    <Button rounded primary icon={<BiSolidDonateHeart size={25} />} style={{ width: '100%' }} onClick={methods.handleSubmit(onSubmit)} >
+                    <Button rounded primary icon={<BiSolidDonateHeart size={25} />} style={{ width: '100%' }} onClick={handleSubmit(onSubmit)} >
                         Confirmar Doação
                     </Button>
                 </FormContainer>
