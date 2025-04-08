@@ -6,6 +6,8 @@ import DonateAnimal from '../pages/Logged/DonateAnimal';
 import DonateItem from '../pages/Logged/DonateItem';
 import SelectedAnimal from '../pages/Logged/SelectedAnimal';
 import Success from '../pages/Logged/Success';
+import RequestItem from '../pages/Logged/RequestItem';
+import MyAds from '../pages/Logged/MyAds';
 
 const PetSharePrivateRoutes = () => {
     return (
@@ -15,7 +17,10 @@ const PetSharePrivateRoutes = () => {
             <Route path='/DonateType' element={<DonateType />} />
             <Route path='/DonateAnimal' element={<DonateAnimal />} />
             <Route path='/DonateItem' element={<DonateItem />} />
+            <Route path='/RequestItem' element={<RequestItem />} />
+            <Route path='/ads' element={<MyAds />} />
             <Route path='/success' element={<Success />} />
+
             <Route path='*' element={<Navigate to='/home' />} />
         </Routes>
     );
