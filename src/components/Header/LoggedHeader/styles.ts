@@ -1,6 +1,10 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
+interface NavItemProps {
+    active?: boolean;
+}
+
 export const NavigationBar = styled.nav`
     display: flex;
     padding: 2rem 0rem 6rem;
@@ -42,7 +46,7 @@ export const NavItems = styled.ul`
     padding: 0;
 `;
 
-export const NavItem = styled(Link)`
+export const NavItem = styled(Link) <NavItemProps>`
     display: flex;
     align-items: center;
     text-decoration: none;
@@ -52,6 +56,14 @@ export const NavItem = styled(Link)`
     font-weight: 700;
     line-height: 32px;
     color: black;
+
+    border-bottom: ${(props) => (props.active ? '3px solid var(--primary-pink)' : 'none')};
+    color: ${(props) => (props.active && 'var(--primary-pink)')};
+
+    &:hover {
+        border-bottom: 3px solid var(--primary-pink);
+    }
+
 `;
 
 export const HrContainer = styled.div`
