@@ -7,22 +7,15 @@ import Input from '../../../components/Input'
 import TextArea from '../../../components/TextArea'
 import { BiSolidDonateHeart } from 'react-icons/bi'
 import { FormProvider, useForm } from 'react-hook-form'
-import { Navigate, useSearchParams } from 'react-router-dom'
+import { Navigate, useNavigate, useSearchParams } from 'react-router-dom'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { DonateItemPayload, Item } from '../../../services/queries/donateItems/interface'
+import { PostDonateItem } from '../../../services/queries/donateItems'
+import { useMutation } from '@tanstack/react-query'
 
 export const donateItemSchema = z.object({
     name: z.string().min(1, 'Nome é obrigatório'),
-    category: z.enum([
-        'food',
-        'toy',
-        'bed',
-        'clothing',
-        'hygiene',
-        'carrier',
-        'accessories',
-        'other',
-    ]),
     brand: z.string().optional(),
     quantity: z.string().min(1, 'Quantidade é obrigatória'),
     description: z.string().optional(),
@@ -46,6 +39,8 @@ const DonateItem = () => {
         'other',
     ]
 
+    const navigate = useNavigate()
+
     const methods = useForm<DonateItemFormData>({
         resolver: zodResolver(donateItemSchema)
     })
@@ -53,23 +48,42 @@ const DonateItem = () => {
 
     const { setValue, handleSubmit } = methods
 
-    const onSubmit = (data: DonateItemFormData) => {
-        const payload = {
-            name: data.name,
-            category: category,
-            brand: data.brand,
-            quantity: data.quantity,
-            description: data.description,
-            image: data.image ? [data.image] : [],
-            userId: 1,
-        }
-
-        console.log(payload)
-    }
-
     if (!category || !validCategories.includes(category)) {
         return <Navigate to="/DonateType" replace />
     }
+
+    const mutation = useMutation({
+        mutationFn: (payload: DonateItemPayload) => PostDonateItem(payload),
+        onSuccess: () => {
+            navigate('/success?type=donate')
+        },
+        onError: () => {
+            alert('Erro ao cadastrar doação.')
+        },
+    })
+
+    const onSubmit = (data: DonateItemFormData) => {
+
+        console.log(data)
+        const payload: DonateItemPayload = {
+            quantity: parseFloat(data.quantity),
+            item: {
+                name: data.name,
+                description: data.description || '',
+                brand: data.brand || '',
+                category: category as Item['category'],
+            },
+            userId: 1,
+            post: {
+                images: data.image,
+            },
+        }
+
+        console.log(payload)
+        mutation.mutate(payload)
+    }
+
+
 
     return (
         <FormProvider {...methods}>
@@ -79,9 +93,8 @@ const DonateItem = () => {
                 </DropzoneContainer>
                 <FormContainer>
                     <Input name='name' label='Nome' placeholder='Nome do Item' />
-                    <Input name='category' label='Categoria' placeholder='Categoria do item' />
                     <Input name='brand' label='Marca' placeholder='Idade do Item' />
-                    <Input name='quatity' label='Quantidade' placeholder='Quantidade do Item' />
+                    <Input name='quantity' label='Quantidade' placeholder='Quantidade do Item' />
                     <TextArea name='description' label='Descrição' placeholder='Descrição do Item' />
                     <Button rounded primary icon={<BiSolidDonateHeart size={25} />} style={{ width: '100%' }} onClick={handleSubmit(onSubmit)}>Confirmar Doação</Button>
                 </FormContainer>
