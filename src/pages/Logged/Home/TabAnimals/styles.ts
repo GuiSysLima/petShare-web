@@ -5,5 +5,4 @@ export const AnimalsContainer = styled.div`
     flex-wrap: wrap;
     gap: 2rem;
     padding-top: 5rem;
-    justify-content: space-between;
 `;
