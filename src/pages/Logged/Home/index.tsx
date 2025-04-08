@@ -1,5 +1,6 @@
 import Tabs, { Tab } from '../../../components/Tabs'
 import TabAnimals from './TabAnimals'
+import TabItems from './TabItems'
 
 const Home = () => {
     return (
@@ -8,7 +9,7 @@ const Home = () => {
                 <TabAnimals />
             </Tab>
             <Tab label="Itens para adoção">
-                <div>Itens para adoção</div>
+                <TabItems />
             </Tab>
             <Tab label="Solicitações de ajuda">
                 <div>Solicitações de ajuda</div>

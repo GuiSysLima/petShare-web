@@ -21,7 +21,7 @@ const DonateType = () => {
     }
 
     const handleSelectItemCategory = (category: string) => {
-        setIsOpenAnimal(false)
+        setIsOpenItem(false)
         navigate(`/donateitem?category=${category}`)
     }
 
