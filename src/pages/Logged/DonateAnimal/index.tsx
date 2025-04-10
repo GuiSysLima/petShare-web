@@ -69,6 +69,7 @@ const DonateAnimal = () => {
                 sex: data.sex,
                 size: data.size,
                 category: category as Animal['category'],
+                status: 'Em aberto' as Animal['status'],
             },
             userId: 1,
             post: {

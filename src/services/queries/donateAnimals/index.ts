@@ -7,7 +7,7 @@ export async function PostDonateAnimal(payload: DonateAnimalPayload) {
 }
 
 export async function GetDonateAnimals() {
-    const { data } = await api.get<AnimalDonation[]>('/donateanimals')
+    const { data } = await api.get<AnimalDonation[]>('/donateanimals/available')
     return data
 }
 

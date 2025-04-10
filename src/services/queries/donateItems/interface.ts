@@ -1,10 +1,11 @@
+import { DonationStatus } from "../donateAnimals/interface"
 import { User } from "../User/interface"
 
 export interface Item {
     id?: number
     name: string
     description: string
-    status?: string
+    status: DonationStatus
     brand: string
     category: 'clothing' | 'toys' | 'accessories' | 'food' | 'hygiene' | 'other'
 }
@@ -27,5 +28,6 @@ export interface ItemDonation {
     quantity: number
     item: Item
     user: User
+    receivedItem?: User
     post: Post
 }
