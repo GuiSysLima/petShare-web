@@ -1,5 +1,6 @@
 import Tabs, { Tab } from '../../../components/Tabs'
 import TabAnimals from './TabAnimals'
+import TabHelp from './TabHelp'
 import TabItems from './TabItems'
 
 const Home = () => {
@@ -12,7 +13,7 @@ const Home = () => {
                 <TabItems />
             </Tab>
             <Tab label="Solicitações de ajuda">
-                <div>Solicitações de ajuda</div>
+                <TabHelp />
             </Tab>
         </Tabs>
     )
