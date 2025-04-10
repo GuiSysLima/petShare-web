@@ -1,6 +1,6 @@
 import React from 'react'
-import { useParams } from 'react-router-dom'
-import { useQuery } from '@tanstack/react-query'
+import { useNavigate, useParams } from 'react-router-dom'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { calculateAnimalAge } from '../../../utils/date'
 import {
     AnimalContainer,
@@ -16,9 +16,11 @@ import { AiOutlineMan } from 'react-icons/ai'
 import { BsClipboardHeart, BsFillClipboardHeartFill } from 'react-icons/bs'
 import { PiHeartbeatLight } from 'react-icons/pi'
 import { GetDonateAnimalById } from '../../../services/queries/donateAnimals'
+import { PostAdoptionAnimal } from '../../../services/queries/adoptionAnimals'
 
 const SelectedAnimal = () => {
     const { id } = useParams()
+    const navigate = useNavigate()
 
     const { data, isLoading, isError } = useQuery({
         queryKey: ['donate-animal', id],
@@ -26,10 +28,28 @@ const SelectedAnimal = () => {
         enabled: !!id,
     })
 
+    const { mutate: postAdoptionAnimal } = useMutation({
+        mutationFn: PostAdoptionAnimal,
+        onSuccess: () => {
+            navigate('/success?type=adopt')
+        },
+        onError: () => {
+            alert("Erro ao registrar interesse.");
+        },
+    });
+
+
     if (isLoading) return <p>Carregando...</p>
     if (isError || !data) return <p>Erro ao carregar o animal.</p>
 
-    const { animal, donor } = data
+    const handleInterest = () => {
+        postAdoptionAnimal({
+            donateAnimalId: data.id,
+            userId: 1
+        });
+    };
+
+    const { animal } = data
 
     return (
         <AnimalContainer>
@@ -83,6 +103,7 @@ const SelectedAnimal = () => {
                         rounded
                         icon={<BsFillClipboardHeartFill size={25} />}
                         style={{ width: '80%', backgroundColor: '#5758F1' }}
+                        onClick={handleInterest}
                     >
                         Tenho interesse
                     </Button>
