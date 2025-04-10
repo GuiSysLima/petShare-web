@@ -13,6 +13,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { DonateItemPayload, Item } from '../../../services/queries/donateItems/interface'
 import { PostDonateItem } from '../../../services/queries/donateItems'
 import { useMutation } from '@tanstack/react-query'
+import { PostRequestItem } from '../../../services/queries/requestItems'
 
 export const requestItemSchema = z.object({
     name: z.string().min(1, 'Nome é obrigatório'),
@@ -53,7 +54,7 @@ const RequestItem = () => {
     }
 
     const mutation = useMutation({
-        mutationFn: (payload: DonateItemPayload) => PostDonateItem(payload),
+        mutationFn: (payload: DonateItemPayload) => PostRequestItem(payload),
         onSuccess: () => {
             navigate('/success?type=help')
         },
@@ -72,6 +73,7 @@ const RequestItem = () => {
                 description: data.description || '',
                 brand: data.brand || '',
                 category: category as Item['category'],
+                status: 'Disponível para adoção'
             },
             userId: 1,
             post: {
