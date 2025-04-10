@@ -72,6 +72,7 @@ const DonateItem = () => {
                 description: data.description || '',
                 brand: data.brand || '',
                 category: category as Item['category'],
+                status: 'Disponível para adoção'
             },
             userId: 1,
             post: {
