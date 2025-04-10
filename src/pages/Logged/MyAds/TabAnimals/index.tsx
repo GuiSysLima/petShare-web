@@ -6,6 +6,8 @@ import RequestItem from '../../RequestItem'
 import RequestCard from '../../../../components/RequestCard'
 import { calculateAnimalAge } from '../../../../utils/date'
 import { PutAdoptionAnimalCancel, PutAdoptionAnimalConfirmAdoption } from '../../../../services/queries/adoptionAnimals'
+import SkeletonCardList from '../../../../components/SkeletonCard'
+import ErrorCard from '../../../../components/ErrorCard'
 
 const TabDonorAnimals = () => {
     const userId = 1
@@ -38,8 +40,8 @@ const TabDonorAnimals = () => {
         }
     });
 
-    if (isLoading) return <p>Carregando animais...</p>
-    if (isError || !data) return <p>Erro ao carregar os animais.</p>
+    if (isLoading) return <SkeletonCardList />
+    if (isError || !data) return <ErrorCard />
 
     return (
         <CardsContainer>

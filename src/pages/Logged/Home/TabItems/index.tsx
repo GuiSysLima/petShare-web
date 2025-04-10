@@ -4,6 +4,7 @@ import AnimalCard from '../../../../components/AnimalCard'
 import { useQuery } from '@tanstack/react-query'
 import { GetDonateItems } from '../../../../services/queries/donateItems'
 import ItemCard from '../../../../components/ItemCard'
+import SkeletonCardList from '../../../../components/SkeletonCard'
 
 const TabItems = () => {
 
@@ -12,7 +13,7 @@ const TabItems = () => {
         queryFn: GetDonateItems,
     })
 
-    if (isLoading) return <p>Carregando itens...</p>
+    if (isLoading) return <SkeletonCardList />
     if (isError || !data) return <p>Erro ao carregar os itens.</p>
 
     return (

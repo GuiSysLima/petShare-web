@@ -4,6 +4,8 @@ import RequestCard from '../../../../components/RequestCard'
 import { GetDonateItemByDonorId } from '../../../../services/queries/donateItems'
 import { DonationStatus } from '../../../../services/queries/donateAnimals/interface'
 import { PutReceivedItemCancel, PutReceivedItemConfirmAdoption } from '../../../../services/queries/receivedItem'
+import SkeletonCardList from '../../../../components/SkeletonCard'
+import ErrorCard from '../../../../components/ErrorCard'
 
 const TabDonorItem = () => {
     const userId = 1
@@ -36,8 +38,8 @@ const TabDonorItem = () => {
         },
     });
 
-    if (isLoading) return <p>Carregando animais...</p>
-    if (isError || !data) return <p>Erro ao carregar os animais.</p>
+    if (isLoading) return <SkeletonCardList />
+    if (isError || !data) return <ErrorCard />
 
     return (
         <CardsContainer>
