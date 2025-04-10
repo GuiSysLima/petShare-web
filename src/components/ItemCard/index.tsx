@@ -5,15 +5,16 @@ import { Item, ItemDonation } from '../../services/queries/donateItems/interface
 
 interface ItemCardProps {
     item: Item
+    type: 'item' | 'request'
 }
 
-const ItemCard = ({ item }: ItemCardProps) => {
+const ItemCard = ({ type, item }: ItemCardProps) => {
 
     const navigate = useNavigate();
 
     return (
         <>
-            <Container key={item.id} onClick={() => navigate(`/item/${item.id}`)}>
+            <Container key={item.id} onClick={() => navigate(`/${type}/${item.id}`)}>
                 <Image src="https://mlnhdk8ure5f.i.optimole.com/w:auto/h:auto/q:mauto/f:best/https://escolapingosdeluz.com.br/wp-content/uploads/2020/04/neve-pet-shop-19.jpg" alt="" />
                 <h2> {item.name} </h2>
                 <ItemInformation>

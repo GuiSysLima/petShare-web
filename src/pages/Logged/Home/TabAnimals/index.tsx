@@ -17,7 +17,7 @@ const TabAnimals = () => {
     return (
         <AnimalsContainer>
             {data.map((donation) => (
-                <AnimalCard id={donation.id} animal={donation.animal} donor={donation.donor} date={donation.date} />
+                <AnimalCard donation={donation} />
             ))}
         </AnimalsContainer>
     )
