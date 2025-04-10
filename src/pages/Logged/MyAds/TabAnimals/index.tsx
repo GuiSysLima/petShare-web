@@ -1,48 +1,72 @@
-import React from 'react'
-import { Animal, AnimalsContainer, CardInformation, Image, RightContainer } from './styles'
-import AnimalCard from '../../../../components/AnimalCard'
-import { useQuery } from '@tanstack/react-query'
-import { GetDonateAnimalByDonorId, GetDonateAnimals } from '../../../../services/queries/donateAnimals'
-import Button from '../../../../components/Button'
+import { useState } from 'react'
+import { CardsContainer } from './styles'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { GetDonateAnimalByDonorId } from '../../../../services/queries/donateAnimals'
+import RequestItem from '../../RequestItem'
+import RequestCard from '../../../../components/RequestCard'
 import { calculateAnimalAge } from '../../../../utils/date'
-import { AiOutlineMan, AiOutlineWoman } from 'react-icons/ai'
+import { PutAdoptionAnimalCancel, PutAdoptionAnimalConfirmAdoption } from '../../../../services/queries/adoptionAnimals'
 
 const TabDonorAnimals = () => {
-
     const userId = 1
 
-    const { data, isLoading, isError } = useQuery({
+    const { data, isLoading, isError, refetch } = useQuery({
         queryKey: ['donate-animal-donor', userId],
         queryFn: () => GetDonateAnimalByDonorId(Number(userId)),
         enabled: !!userId,
     })
 
+    const { mutate: approveAdoption } = useMutation({
+        mutationFn: PutAdoptionAnimalConfirmAdoption,
+        onSuccess: () => {
+            alert('Adoção aprovada com sucesso!');
+            refetch();
+        },
+        onError: () => {
+            alert('Erro ao aprovar adoção.');
+        }
+    });
+
+    const { mutate: rejectAdoption } = useMutation({
+        mutationFn: PutAdoptionAnimalCancel,
+        onSuccess: () => {
+            alert('Solicitação de adoção recusada.');
+            refetch();
+        },
+        onError: () => {
+            alert('Erro ao recusar adoção.');
+        }
+    });
+
     if (isLoading) return <p>Carregando animais...</p>
     if (isError || !data) return <p>Erro ao carregar os animais.</p>
 
     return (
-        <AnimalsContainer>
+        <CardsContainer>
             {data.map((donation) => (
-                <Animal>
-                    <RightContainer>
-                        <Image src="https://mlnhdk8ure5f.i.optimole.com/w:auto/h:auto/q:mauto/f:best/https://escolapingosdeluz.com.br/wp-content/uploads/2020/04/neve-pet-shop-19.jpg" />
-                        <CardInformation>
-                            <h1>{donation.animal.name}</h1>
-                            <p>{donation.animal.category}</p>
-                            <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-                                <p>{calculateAnimalAge(donation.animal.bornDate)}</p>
-                                {donation.animal.sex === 'male' ? <AiOutlineMan color='03D2FF' size={16} />
-                                    : <AiOutlineWoman color='FF3D03' size={16} />}
-                            </div>
-                            <p>Publicado em: {donation.date}</p>
-                        </CardInformation>
-                    </RightContainer>
-                    <div>
-                        <Button primary>EDITAR</Button>
-                    </div>
-                </Animal>
+                <RequestCard key={donation.id}
+                    image={donation.animal.name}
+                    status={donation.animal.status}
+                    title={donation.animal.name}
+                    infoLines={[donation.animal.category, calculateAnimalAge(donation.animal.bornDate)]}
+                    showButtons={!!donation.adoptionAnimal}
+                    requestName={donation.adoptionAnimal?.adopter.name}
+                    requestPhone={donation.adoptionAnimal?.adopter.phone}
+                    requestLocation={donation.adoptionAnimal?.adopter.address}
+                    onApprove={() => {
+                        if (donation.adoptionAnimal?.id) {
+                            approveAdoption(donation.adoptionAnimal.id);
+                        }
+                    }}
+                    onReject={() => {
+                        if (donation.adoptionAnimal?.id) {
+                            rejectAdoption(donation.adoptionAnimal.id);
+                        }
+                    }
+                    }
+                />
             ))}
-        </AnimalsContainer>
+        </CardsContainer>
 
     )
 }

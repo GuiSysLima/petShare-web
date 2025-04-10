@@ -2,6 +2,8 @@ import React from 'react'
 import Tabs, { Tab } from '../../../components/Tabs'
 import { Title } from './styles'
 import TabDonorAnimals from './TabAnimals'
+import TabDonorItem from './TabItem'
+import TabDonorItemHelp from './TabHelp'
 
 const MyAds = () => {
     return (
@@ -12,10 +14,10 @@ const MyAds = () => {
                     <TabDonorAnimals />
                 </Tab>
                 <Tab label="Itens para adoção">
-                    <div></div>
+                    <TabDonorItem />
                 </Tab>
                 <Tab label="Solicitações de ajuda">
-                    <div></div>
+                    <TabDonorItemHelp />
                 </Tab>
             </Tabs>
         </>
