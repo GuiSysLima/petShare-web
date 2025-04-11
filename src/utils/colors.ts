@@ -2,17 +2,15 @@ import { DonationStatus } from "../services/queries/donateAnimals/interface";
 
 export const getStatusColor = (status: DonationStatus): string => {
     switch (status) {
-        case 'Em interesse':
-            return '#4A90E2';
-        case 'Em espera de confirmação de doação':
+        case 'EM_INTERESSE':
             return '#F5A623';
-        case 'Em espera de confirmação de recebimento':
+        case 'EM_ESPERA_DE_RECEBIMENTO':
             return '#F8E71C';
-        case 'Disponível para adoção':
+        case 'DISPONIVEL ':
             return '#00BCD4';
-        case 'Finalizada':
+        case 'ADOTADO':
             return '#7ED321';
-        case 'Cancelada':
+        case 'APROVADO':
             return '#D0021B';
         default:
             return '#999999';

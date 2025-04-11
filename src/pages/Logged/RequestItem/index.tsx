@@ -75,7 +75,7 @@ const RequestItem = () => {
                 description: data.description || '',
                 brand: data.brand || '',
                 category: category as Item['category'],
-                status: 'Disponível para adoção'
+                status: 'DISPONIVEL '
             },
             userId: Number(user?.id),
             post: {

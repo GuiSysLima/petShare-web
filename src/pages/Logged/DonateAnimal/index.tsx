@@ -92,7 +92,7 @@ const DonateAnimal = () => {
                 medicalNotes: data.animal.medicalNotes,
                 sex: data.animal.sex,
                 size: data.animal.size,
-                status: 'DISPONIVEL' as DonationStatus,
+                status: 'DISPONIVEL ' as DonationStatus,
                 category: values.animal.category as Animal['category'],
             },
             post: {
