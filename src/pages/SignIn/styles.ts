@@ -26,3 +26,15 @@ export const FormContainer = styled.form`
     flex-direction: column;
     gap: 2rem;
 `;
+
+export const MessageRegister = styled.p`
+    font-size: 1.2rem;
+    font-weight: 600;
+
+    & > span {
+        color: var(--primary-pink);
+        font-weight: 700;
+        cursor: pointer;
+        text-decoration: underline;
+    }
+`

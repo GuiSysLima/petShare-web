@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { ButtonHTMLAttributes } from 'react'
 import { IconWrapper, StyledButton } from './styles';
 
-interface ButtonProps {
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     children: React.ReactNode;
     icon?: JSX.Element;
     primary?: boolean;
@@ -10,9 +10,9 @@ interface ButtonProps {
     style?: React.CSSProperties;
 }
 
-const Button = ({ children, icon, onClick, primary, rounded, style }: ButtonProps) => {
+const Button = ({ children, icon, onClick, primary, rounded, style, ...rest }: ButtonProps) => {
     return (
-        <StyledButton primary={primary} rounded={rounded} onClick={onClick} style={style}>
+        <StyledButton {...rest} primary={primary} rounded={rounded} onClick={onClick} style={style}>
             {icon && (
                 <IconWrapper>
                     {icon}

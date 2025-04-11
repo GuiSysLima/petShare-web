@@ -25,6 +25,7 @@ export const InputContainer = styled.div`
 export const ToggleButton = styled.button`
     position: absolute;
     right: 1.5rem;
+    top: 2rem;
     bottom: 1rem;
     background: transparent;
     border: none;
