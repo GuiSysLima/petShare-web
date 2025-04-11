@@ -51,9 +51,9 @@ const TabDonorItem = () => {
                     title={donation.item.name}
                     infoLines={[donation.item.category, donation.item.brand, `${donation.quantity} Unidades`]}
                     showButtons={!!donation.receivedItem}
-                    requestName={donation.receivedItem?.name}
-                    requestPhone={donation.receivedItem?.phone}
-                    requestLocation={donation.receivedItem?.address}
+                    requestName={donation.receivedItem?.receiver?.name}
+                    requestPhone={donation.receivedItem?.receiver?.phone}
+                    requestLocation={donation.receivedItem?.receiver?.address}
                     onApprove={() => {
                         if (donation.receivedItem?.id) {
                             approveDonation(donation.receivedItem.id);

@@ -53,9 +53,9 @@ const TabDonorItemHelp = () => {
                     title={donation.donateItem.item.name}
                     infoLines={[donation.donateItem.item.category, donation.donateItem.item.brand, `${donation.quantity} Unidades`]}
                     showButtons={!!donation.donateItem.receivedItem}
-                    requestName={donation.donateItem.receivedItem?.name}
-                    requestPhone={donation.donateItem.receivedItem?.phone}
-                    requestLocation={donation.donateItem.receivedItem?.address}
+                    requestName={donation.donateItem.receivedItem?.request?.name}
+                    requestPhone={donation.donateItem.receivedItem?.request?.phone}
+                    requestLocation={donation.donateItem.receivedItem?.request?.address}
                     onApprove={() => {
                         if (donation.donateItem.receivedItem?.id) {
                             approveDonation(donation.donateItem.receivedItem.id);

@@ -64,14 +64,17 @@ const RequestCard = ({
     const isFromInterests = source === 'my-interests';
 
     const shouldShowApproveReject =
-        status === 'EM_INTERESSE' || status === 'Reservado' && showButtons;
+        (status === 'EM_INTERESSE' || status === 'Reservado') && isFromAds && showButtons;
 
     const shouldShowCancel =
-        status === 'EM_INTERESSE' && isFromInterests;
+        (status === 'EM_INTERESSE' || status === 'Reservado') && isFromInterests;
+
+    const shouldShowConfirmReceipt = status === 'EM_ESPERA_CONFIRMACAO_RECEBIMENTO' || status === 'EM_ESPERA_DE_RECEBIMENTO' || status === 'Em espera confirmação recebimento';
 
     const shouldShowMessage =
+        status == 'EM_INTERESSE' ||
         status === 'APROVADO' ||
-        status === 'EM_ESPERA_DE_RECEBIMENTO';
+        shouldShowConfirmReceipt;
 
     const getInfoMessage = () => {
         switch (status) {
@@ -134,9 +137,9 @@ const RequestCard = ({
                         <p style={{ fontWeight: 'bold', color: '#555', marginBottom: '1rem' }}>
                             {getInfoMessage()}
                         </p>
-                        {status === 'EM_ESPERA_DE_RECEBIMENTO' && isFromInterests && (
+                        {shouldShowConfirmReceipt && (
                             <ApproveButton onClick={onConfirmReceipt}>
-                                Confirmar recebimento
+                                {isFromInterests ? 'Confirmar recebimento' : 'Confirmar Entrega'}
                             </ApproveButton>
                         )}
                     </div>

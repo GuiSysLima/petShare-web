@@ -7,7 +7,9 @@ export type DonationStatus =
     | 'APROVADO'
     | 'RECUSADO'
     | 'ADOTADO'
-    | 'EM_ESPERA_DE_RECEBIMENTO';
+    | 'EM_ESPERA_DE_RECEBIMENTO'
+    | 'EM_ESPERA_CONFIRMACAO_RECEBIMENTO'
+    | 'Em espera confirmação recebimento';
 
 export interface Animal {
     name: string

@@ -28,8 +28,9 @@ export interface ItemDonation {
     quantity: number
     item: Item
     user: User
-    receivedItem?: User
+    receivedItem?: ItemDonation
     donateItem: ItemDonation
     receiver?: User
+    request?: User
     post: Post
 }
