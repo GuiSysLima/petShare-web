@@ -59,8 +59,8 @@ const Register = () => {
             }
 
             await PostUser(payload)
-            const response = await PostUserLogin(loginPayload)
-            login(response.token)
+            const { user, token } = await PostUserLogin(loginPayload)
+            login(user, token)
             navigate('/home')
         } catch (error) {
             console.error('Login failed:', error)
