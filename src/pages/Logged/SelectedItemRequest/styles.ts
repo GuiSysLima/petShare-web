@@ -21,6 +21,34 @@ export const Image = styled.img`
     object-fit: cover;
 `;
 
+export const MainImageWrapper = styled.div`
+  text-align: center;
+  margin-bottom: 20px;
+`;
+
+export const ImageGallery = styled.div`
+  margin-top: 1rem;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+`;
+
+export const Thumbnail = styled.img<{ isActive: boolean }>`
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+  cursor: pointer;
+  border: ${({ isActive }) => (isActive ? '2px solid #5758F1' : '2px solid transparent')};
+  transition: border 0.2s;
+
+  &:hover {
+    opacity: 0.8;
+  }
+`;
+
+
 export const Description = styled.div`
     max-width: 80rem;
     gap: 4rem;  

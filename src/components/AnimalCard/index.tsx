@@ -4,6 +4,7 @@ import { AiOutlineMan, AiOutlineWoman } from 'react-icons/ai'
 import { useNavigate } from 'react-router-dom';
 import { AnimalDonation } from '../../services/queries/donateAnimals/interface';
 import { calculateAnimalAge } from '../../utils/date';
+import { getAnimalImagesUrl } from '../../utils/image';
 
 interface AnimalCardProps {
     donation: AnimalDonation
@@ -17,7 +18,7 @@ const AnimalCard = ({ donation }: AnimalCardProps) => {
     return (
         <>
             <Container key={donation.id} onClick={() => navigate(`/animal/${donation.id}`)}>
-                <Image src="https://mlnhdk8ure5f.i.optimole.com/w:auto/h:auto/q:mauto/f:best/https://escolapingosdeluz.com.br/wp-content/uploads/2020/04/neve-pet-shop-19.jpg" alt="" />
+                <Image src={getAnimalImagesUrl(donation.post?.images)} alt="" />
                 <h2> {donation.animal.name} </h2>
                 <AnimalInformation>
                     <h3>{calculateAnimalAge(donation.animal.bornDate)}</h3>

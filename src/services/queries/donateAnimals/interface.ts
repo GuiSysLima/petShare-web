@@ -2,6 +2,7 @@ import { User } from "../User/interface"
 
 export type DonationStatus =
     'DISPONIVEL '
+    | 'EM_ABERTO'
     | 'Reservado'
     | 'EM_INTERESSE'
     | 'APROVADO'
@@ -9,7 +10,8 @@ export type DonationStatus =
     | 'ADOTADO'
     | 'EM_ESPERA_DE_RECEBIMENTO'
     | 'EM_ESPERA_CONFIRMACAO_RECEBIMENTO'
-    | 'Em espera confirmação recebimento';
+    | 'Em espera confirmação recebimento'
+    | 'ESPERANDO_CONFIRMACAO_RECEBIMENTO';
 
 export interface Animal {
     name: string
@@ -57,6 +59,7 @@ export interface AnimalDonation {
     id: number
     date: string
     status: DonationStatus
+    post?: Post
     animal: Animal
     donor: User
     adoptionAnimal?: AdoptionAnimal;

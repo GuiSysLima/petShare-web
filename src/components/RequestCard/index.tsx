@@ -69,22 +69,24 @@ const RequestCard = ({
     const shouldShowCancel =
         (status === 'EM_INTERESSE' || status === 'Reservado') && isFromInterests;
 
-    const shouldShowConfirmReceipt = status === 'EM_ESPERA_CONFIRMACAO_RECEBIMENTO' || status === 'EM_ESPERA_DE_RECEBIMENTO' || status === 'Em espera confirmação recebimento';
+    const shouldShowConfirmReceipt =
+        status === 'EM_ESPERA_CONFIRMACAO_RECEBIMENTO' ||
+        status === 'EM_ESPERA_DE_RECEBIMENTO' ||
+        status === 'Em espera confirmação recebimento' ||
+        status === 'ESPERANDO_CONFIRMACAO_RECEBIMENTO';
 
     const shouldShowMessage =
         status == 'EM_INTERESSE' ||
-        status === 'APROVADO' ||
         shouldShowConfirmReceipt;
 
     const getInfoMessage = () => {
-        switch (status) {
-            case 'EM_INTERESSE':
-                return 'Aguardando o tutor aprovar sua solicitação...';
-            case 'EM_ESPERA_DE_RECEBIMENTO':
-                return 'Seu animal já chegou até você?';
-            default:
-                return '';
+        if (status === 'EM_INTERESSE') {
+            return 'Aguardando o tutor aprovar sua solicitação...';
         }
+        if (shouldShowConfirmReceipt) {
+            return 'Seu animal já chegou até você?';
+        }
+        return '';
     };
 
     return (

@@ -27,15 +27,19 @@ export const animalSchema = z.object({
     category: z.enum(['dog', 'cat', 'rodent', 'bird', 'reptile', 'other']),
     status: z.enum(['DISPONIVEL', 'EM_INTERESSE', 'APROVADO', 'RECUSADO', 'ADOTADO']),
 })
-
-export const postSchema = z.object({
-    images: z.any(),
-})
-
 export const donateAnimalSchema = z.object({
     animal: animalSchema,
     userId: z.number().min(1),
-    post: postSchema,
+    image: z
+        .any()
+        .refine(
+            (val) =>
+                val === undefined ||
+                val instanceof File ||
+                (Array.isArray(val) && val.every((f) => f instanceof File)),
+            { message: 'Arquivo inválido' }
+        )
+        .optional(),
 })
 
 export type DonateAnimalFormData = z.infer<typeof donateAnimalSchema>
@@ -57,8 +61,16 @@ const DonateAnimal = () => {
             animal: {
                 category: category as Animal['category'],
                 status: 'DISPONIVEL',
+                name: '',
+                race: '',
+                bornDate: '',
+                observations: '',
+                medicalNotes: '',
+                sex: 'male',
+                size: 'small',
             },
             userId: Number(user?.id),
+            image: undefined,
         },
     })
 
@@ -71,7 +83,7 @@ const DonateAnimal = () => {
     }
 
     const mutation = useMutation({
-        mutationFn: (payload: DonateAnimalPayload) => PostDonateAnimal(payload),
+        mutationFn: (payload: FormData) => PostDonateAnimal(payload),
         onSuccess: () => {
             navigate('/success?type=donate')
         },
@@ -82,6 +94,8 @@ const DonateAnimal = () => {
 
     const onSubmit = (data: DonateAnimalFormData) => {
         const values = getValues()
+
+        const formData = new FormData();
 
         const payload = {
             animal: {
@@ -96,12 +110,26 @@ const DonateAnimal = () => {
                 category: values.animal.category as Animal['category'],
             },
             post: {
-                images: data.post.images.path,
+
             },
             userId: Number(user?.id),
         }
 
-        mutation.mutate(payload)
+        const jsonBlob = new Blob([JSON.stringify(payload)], {
+            type: 'application/json',
+        })
+        formData.append('obj', jsonBlob)
+
+        const images = data.image as File[] | File
+        if (Array.isArray(images)) {
+            images.forEach((file) => {
+                formData.append('images', file)
+            })
+        } else if (images instanceof File) {
+            formData.append('images', images)
+        }
+
+        mutation.mutate(formData)
     }
 
 
@@ -109,7 +137,7 @@ const DonateAnimal = () => {
         <FormProvider {...methods}>
             <Container>
                 <DropzoneContainer>
-                    <Dropzone name='post.images' />
+                    <Dropzone name='image' />
                 </DropzoneContainer>
                 <FormContainer>
                     <Input name='animal.name' label='Nome' placeholder='Nome do animal' />

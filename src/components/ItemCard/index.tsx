@@ -2,6 +2,7 @@ import React from 'react'
 import { ItemInformation, Container, Image } from './styles'
 import { useNavigate } from 'react-router-dom';
 import { Item, ItemDonation } from '../../services/queries/donateItems/interface';
+import { getAnimalImagesUrl } from '../../utils/image';
 
 interface ItemCardProps {
     donation: ItemDonation
@@ -12,12 +13,10 @@ const ItemCard = ({ type, donation }: ItemCardProps) => {
 
     const navigate = useNavigate();
 
-    console.log('DONATION', donation)
-
     return (
         <>
             <Container key={donation.id} onClick={() => navigate(`/${type}/${donation.id}`)}>
-                <Image src="https://mlnhdk8ure5f.i.optimole.com/w:auto/h:auto/q:mauto/f:best/https://escolapingosdeluz.com.br/wp-content/uploads/2020/04/neve-pet-shop-19.jpg" alt="" />
+                <Image src={getAnimalImagesUrl(donation.post?.images)} alt="" />
                 <h2> {donation.item.name} </h2>
                 <ItemInformation>
                     <h3>{donation.item.category}</h3>

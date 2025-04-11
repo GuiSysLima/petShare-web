@@ -87,7 +87,8 @@ export const RequestInfo = styled.div`
 
 export const ButtonGroup = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 2rem
 `;
 
 export const ApproveButton = styled.button`

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import {
@@ -7,8 +7,11 @@ import {
     AnimalInformationContainer,
     Description,
     Image,
+    ImageGallery,
+    MainImageWrapper,
     Section,
     SectionDescription,
+    Thumbnail,
 } from './styles'
 import Button from '../../../components/Button'
 import { AiOutlineMan } from 'react-icons/ai'
@@ -17,6 +20,7 @@ import { GetRequestItemById } from '../../../services/queries/requestItems'
 import DonateQuantityModal from './DonateQuantityModal'
 import { PostReceivedItem } from '../../../services/queries/receivedItem'
 import { useAuth } from '../../../context/AuthContext'
+import { getAnimalImage } from '../../../utils/image'
 
 const SelectedItemRequest = () => {
     const { id } = useParams()
@@ -41,6 +45,14 @@ const SelectedItemRequest = () => {
         },
     });
 
+    const [selectedImage, setSelectedImage] = useState('');
+
+    useEffect(() => {
+        if (data?.post && data?.post?.images?.length > 0) {
+            setSelectedImage(getAnimalImage(data.post.images[0]));
+        }
+    }, [data]);
+
     if (isLoading) return <p>Carregando...</p>
     if (isError || !data) return <p>Erro ao carregar o animal.</p>
 
@@ -54,9 +66,27 @@ const SelectedItemRequest = () => {
 
     const { item } = data
 
+    const images = data.post.images || []
+
     return (
         <AnimalContainer>
-            <Image src="https://mlnhdk8ure5f.i.optimole.com/w:auto/h:auto/q:mauto/f:best/https://escolapingosdeluz.com.br/wp-content/uploads/2020/04/neve-pet-shop-19.jpg" />
+            <MainImageWrapper>
+                <Image src={selectedImage} alt="Item" />
+                <ImageGallery>
+                    {images.map((img, index) => {
+                        const image = getAnimalImage(img);
+                        return (
+                            <Thumbnail
+                                key={index}
+                                src={image}
+                                alt={`Miniatura ${index}`}
+                                onClick={() => setSelectedImage(image)}
+                                isActive={image === selectedImage}
+                            />
+                        );
+                    })}
+                </ImageGallery>
+            </MainImageWrapper>
             <Description>
                 <AnimalInformationContainer>
                     <h1>{item.name}</h1>

@@ -29,8 +29,12 @@ export const RegisterSchema = z.object({
         city: z.string().min(1, 'Cidade é obrigatória'),
         state: z.string().min(1, 'Estado é obrigatório'),
     }),
-    image: z.string().optional(),
-})
+    image: z
+        .instanceof(File)
+        .optional()
+        .or(z.literal('')),
+});
+
 
 export type RegisterFormData = z.infer<typeof RegisterSchema>
 const Register = () => {
@@ -48,17 +52,39 @@ const Register = () => {
 
     const onSubmit = async (data: RegisterFormData) => {
         try {
+            const formData = new FormData();
+
+            const imageFile = data.image as File | undefined;
+
             const payload = {
-                ...data,
+                name: data.name,
+                email: data.email,
+                password: data.password,
+                phone: data.phone,
+                cpf: data.cpf,
+                bornDate: data.bornDate,
                 status: 'Ativo',
-            }
+                address: {
+                    number: data.address.number,
+                    street: data.address.street,
+                    neighborhood: data.address.neighborhood,
+                    cep: data.address.cep,
+                    city: data.address.city,
+                    state: data.address.state,
+                },
+            };
+
+            formData.append('obj', new Blob([JSON.stringify(payload)], {
+                type: 'application/json',
+            }));
+
+            await PostUser(formData);
 
             const loginPayload = {
                 email: data.email,
                 password: data.password,
-            }
+            };
 
-            await PostUser(payload)
             const { user, token } = await PostUserLogin(loginPayload)
             login(user, token)
             navigate('/home')

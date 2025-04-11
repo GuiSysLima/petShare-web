@@ -20,7 +20,7 @@ const TabDonorItemHelp = () => {
     const { mutate: approveDonation } = useMutation({
         mutationFn: PutReceivedItemConfirmAdoption,
         onSuccess: () => {
-            alert('Doação recusada com sucesso!');
+            alert('Doação aprovado com sucesso!');
             refetch();
         },
         onError: () => {

@@ -1,9 +1,12 @@
 import api from "../../axios"
 import { AnimalDonation, DonateAnimalPayload } from "./interface"
 
-export async function PostDonateAnimal(payload: DonateAnimalPayload) {
-    const { data } = await api.post('/donateanimals', payload)
-    return data
+export async function PostDonateAnimal(data: FormData) {
+    return await api.post('/donateanimals', data, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    })
 }
 
 export async function GetDonateAnimals() {

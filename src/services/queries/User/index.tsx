@@ -1,9 +1,13 @@
 import api from "../../axios"
 import { LoginPayload, User } from "./interface"
 
-export async function PostUser(payload: User) {
-    const { data } = await api.post('/users', payload)
-    return data
+export async function PostUser(data: FormData) {
+    return await api.post('/users', data, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    })
+
 }
 
 export async function PostUserLogin(payload: LoginPayload) {

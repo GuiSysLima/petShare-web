@@ -20,7 +20,16 @@ export const donateItemSchema = z.object({
     brand: z.string().optional(),
     quantity: z.string().min(1, 'Quantidade é obrigatória'),
     description: z.string().optional(),
-    image: z.any().optional(),
+    image: z
+        .any()
+        .refine(
+            (val) =>
+                val === undefined ||
+                val instanceof File ||
+                (Array.isArray(val) && val.every((f) => f instanceof File)),
+            { message: 'Arquivo inválido' }
+        )
+        .optional(),
 })
 
 export type DonateItemFormData = z.infer<typeof donateItemSchema>
@@ -43,7 +52,14 @@ const DonateItem = () => {
     const navigate = useNavigate()
 
     const methods = useForm<DonateItemFormData>({
-        resolver: zodResolver(donateItemSchema)
+        resolver: zodResolver(donateItemSchema),
+        defaultValues: {
+            name: '',
+            brand: '',
+            quantity: '1',
+            description: '',
+            image: undefined,
+        },
     })
 
 
@@ -56,7 +72,7 @@ const DonateItem = () => {
     }
 
     const mutation = useMutation({
-        mutationFn: (payload: DonateItemPayload) => PostDonateItem(payload),
+        mutationFn: (data: FormData) => PostDonateItem(data),
         onSuccess: () => {
             navigate('/success?type=donate')
         },
@@ -66,22 +82,38 @@ const DonateItem = () => {
     })
 
     const onSubmit = (data: DonateItemFormData) => {
-        const payload: DonateItemPayload = {
+        const formData = new FormData()
+
+        const payload = {
             quantity: parseFloat(data.quantity),
             item: {
                 name: data.name,
                 description: data.description || '',
                 brand: data.brand || '',
                 category: category as Item['category'],
-                status: 'DISPONIVEL '
+                status: 'DISPONIVEL',
+            },
+            post: {
+
             },
             userId: Number(user?.id),
-            post: {
-                images: data.image.path,
-            },
         }
 
-        mutation.mutate(payload)
+        const blob = new Blob([JSON.stringify(payload)], {
+            type: 'application/json',
+        })
+        formData.append('obj', blob)
+
+        const images = data.image as File[] | File
+        if (Array.isArray(images)) {
+            images.forEach((file) => {
+                formData.append('images', file)
+            })
+        } else if (images instanceof File) {
+            formData.append('images', images)
+        }
+
+        mutation.mutate(formData)
     }
 
 
