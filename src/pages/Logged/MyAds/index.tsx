@@ -10,10 +10,10 @@ const MyAds = () => {
         <>
             <Title>MEUS ANUNCIOS</Title>
             <Tabs>
-                <Tab label="Animais para adoção">
+                <Tab label="Animais para doação">
                     <TabDonorAnimals />
                 </Tab>
-                <Tab label="Itens para adoção">
+                <Tab label="Itens para doação">
                     <TabDonorItem />
                 </Tab>
                 <Tab label="Solicitações de ajuda">

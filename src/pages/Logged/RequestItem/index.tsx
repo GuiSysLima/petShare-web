@@ -15,6 +15,7 @@ import { PostDonateItem } from '../../../services/queries/donateItems'
 import { useMutation } from '@tanstack/react-query'
 import { PostRequestItem } from '../../../services/queries/requestItems'
 import { useAuth } from '../../../context/AuthContext'
+import { toast } from 'react-toastify'
 
 export const requestItemSchema = z.object({
     name: z.string().min(1, 'Nome é obrigatório'),
@@ -78,7 +79,7 @@ const RequestItem = () => {
             navigate('/success?type=help')
         },
         onError: () => {
-            alert('Erro ao cadastrar doação.')
+            toast.warning('Erro ao cadastrar solicitação.')
         },
     })
 

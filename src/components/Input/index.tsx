@@ -13,13 +13,17 @@ const Input = ({ name, label, type = 'text', ...rest }: InputProps) => {
         formState: { errors }
     } = useFormContext()
 
-    const error = errors[name]?.message as string | undefined
+    const getNestedValue = (obj: any, path: string): any => {
+        return path.split('.').reduce((acc, part) => acc?.[part], obj);
+    };
+
+    const error = getNestedValue(errors, name)?.message as string | undefined;
 
     return (
         <InputContainer>
             {label && <label htmlFor={name}>{label}</label>}
             <input id={name} type={type} {...register(name)} {...rest} />
-            {error && <span style={{ color: 'red', fontSize: '0.8rem' }}>{error}</span>}
+            {error && <span style={{ color: 'red', fontSize: '1rem', fontWeight: 600 }}>{error}</span>}
         </InputContainer>
     )
 }

@@ -15,11 +15,17 @@ import { PostDonateAnimal } from '../../../services/queries/donateAnimals'
 import { Animal, DonateAnimalPayload, DonationStatus } from '../../../services/queries/donateAnimals/interface'
 import { useMutation } from '@tanstack/react-query'
 import { useAuth } from '../../../context/AuthContext'
+import { toast } from 'react-toastify'
 
 export const animalSchema = z.object({
-    name: z.string().min(1),
-    race: z.string().min(1),
-    bornDate: z.string().min(1),
+    name: z.string().min(1, 'Nome é obrigatório'),
+    race: z.string().min(1, 'Raça é obrigatória'),
+    bornDate: z.string().min(1, 'Idade é obrigatória').refine((val) => {
+        const date = new Date(val)
+        const today = new Date()
+        return date <= today
+    }
+        , { message: 'Data inválida' }),
     observations: z.string(),
     medicalNotes: z.string(),
     sex: z.enum(['male', 'female']),
@@ -72,6 +78,7 @@ const DonateAnimal = () => {
             userId: Number(user?.id),
             image: undefined,
         },
+        mode: 'onBlur',
     })
 
     const { getValues, handleSubmit, formState } = methods
@@ -88,9 +95,11 @@ const DonateAnimal = () => {
             navigate('/success?type=donate')
         },
         onError: () => {
-            alert('Erro ao cadastrar doação.')
+            toast.warning('Erro ao cadastrar doação.')
         },
     })
+
+    console.log(formState.errors)
 
     const onSubmit = (data: DonateAnimalFormData) => {
         const values = getValues()

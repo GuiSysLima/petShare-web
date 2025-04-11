@@ -8,6 +8,7 @@ import SkeletonCardList from '../../../../components/SkeletonCard'
 import ErrorCard from '../../../../components/ErrorCard'
 import { useAuth } from '../../../../context/AuthContext'
 import { getItemCategoryLabel } from '../../../../utils/general'
+import { toast } from 'react-toastify'
 
 const TabDonorItemHelp = () => {
     const { user } = useAuth()
@@ -21,22 +22,22 @@ const TabDonorItemHelp = () => {
     const { mutate: approveDonation } = useMutation({
         mutationFn: PutReceivedItemConfirmAdoption,
         onSuccess: () => {
-            alert('Doação recusada com sucesso!');
+            toast.success('Doação aprovada com sucesso!');
             refetch();
         },
         onError: () => {
-            alert('Erro ao recusar a doação.');
+            toast.error('Erro ao aprovar a doação.');
         },
     });
 
     const { mutate: rejectDonation } = useMutation({
         mutationFn: PutReceivedItemCancel,
         onSuccess: () => {
-            alert('Doação recusada com sucesso!');
+            toast.success('Doação recusada com sucesso!');
             refetch();
         },
         onError: () => {
-            alert('Erro ao recusar a doação.');
+            toast.error('Erro ao recusar a doação.');
         },
     });
 
@@ -57,7 +58,7 @@ const TabDonorItemHelp = () => {
                     requestName={donation.donateItem.receivedItem?.request?.name}
                     requestPhone={donation.donateItem.receivedItem?.request?.phone}
                     requestLocation={donation.donateItem.receivedItem?.request?.address}
-                    onApprove={() => {
+                    onConfirmReceipt={() => {
                         if (donation.donateItem.receivedItem?.id) {
                             approveDonation(donation.donateItem.receivedItem.id);
                         }

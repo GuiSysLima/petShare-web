@@ -10,6 +10,7 @@ import ErrorCard from '../../../../components/ErrorCard'
 import { useAuth } from '../../../../context/AuthContext'
 import { getAnimalCategoryLabel } from '../../../../utils/general'
 import { getAnimalImage, getAnimalImagesUrl } from '../../../../utils/image'
+import { toast } from 'react-toastify'
 
 const TabDonorAnimals = () => {
     const { user } = useAuth()
@@ -20,27 +21,26 @@ const TabDonorAnimals = () => {
         enabled: !!user?.id,
     })
 
-    console.log(data)
-
     const { mutate: approveAdoption } = useMutation({
         mutationFn: PutAdoptionAnimalConfirmReceipt,
         onSuccess: () => {
-            alert('Adoção recebida com sucesso!');
+            toast.success('Adoção aprovada com sucesso!');
             refetch();
         },
         onError: () => {
-            alert('Erro ao aprovar adoção.');
+            toast.error('Erro ao aprovar adoção.');
         }
     });
+
 
     const { mutate: rejectAdoption } = useMutation({
         mutationFn: PutAdoptionAnimalCancel,
         onSuccess: () => {
-            alert('Solicitação de adoção recusada.');
+            toast.success('Solicitação de adoção recusada.');
             refetch();
         },
         onError: () => {
-            alert('Erro ao recusar adoção.');
+            toast.error('Erro ao recusar adoção.');
         }
     });
 
@@ -62,7 +62,7 @@ const TabDonorAnimals = () => {
                         requestName={donation.donateAnimal.adoptionAnimal?.adopter.name}
                         requestPhone={donation.donateAnimal.adoptionAnimal?.adopter.phone}
                         requestLocation={donation.donateAnimal.adoptionAnimal?.adopter.address}
-                        onApprove={() => {
+                        onConfirmReceipt={() => {
                             if (donation.donateAnimal.adoptionAnimal?.id) {
                                 approveAdoption(donation.donateAnimal.adoptionAnimal.id);
                             }

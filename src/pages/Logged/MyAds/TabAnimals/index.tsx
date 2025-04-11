@@ -5,10 +5,12 @@ import { GetDonateAnimalByDonorId } from '../../../../services/queries/donateAni
 import RequestItem from '../../RequestItem'
 import RequestCard from '../../../../components/RequestCard'
 import { calculateAnimalAge } from '../../../../utils/date'
-import { PutAdoptionAnimalCancel, PutAdoptionAnimalConfirmAdoption } from '../../../../services/queries/adoptionAnimals'
+import { PutAdoptionAnimalCancel, PutAdoptionAnimalConfirmAdoption, PutAdoptionAnimalConfirmReceipt } from '../../../../services/queries/adoptionAnimals'
 import SkeletonCardList from '../../../../components/SkeletonCard'
 import ErrorCard from '../../../../components/ErrorCard'
 import { useAuth } from '../../../../context/AuthContext'
+import { getAnimalCategoryLabel } from '../../../../utils/general'
+import { toast } from 'react-toastify'
 
 const TabDonorAnimals = () => {
     const { user } = useAuth()
@@ -22,22 +24,33 @@ const TabDonorAnimals = () => {
     const { mutate: approveAdoption } = useMutation({
         mutationFn: PutAdoptionAnimalConfirmAdoption,
         onSuccess: () => {
-            alert('Adoção aprovada com sucesso!');
+            toast.success('Adoção aprovada com sucesso!');
             refetch();
         },
         onError: () => {
-            alert('Erro ao aprovar adoção.');
+            toast.error('Erro ao aprovar adoção.');
+        }
+    });
+
+    const { mutate: ConfirmReceiptAdoption } = useMutation({
+        mutationFn: PutAdoptionAnimalConfirmReceipt,
+        onSuccess: () => {
+            toast.success('Adoção recebida com sucesso!');
+            refetch();
+        },
+        onError: () => {
+            toast.error('Erro ao aprovar adoção.');
         }
     });
 
     const { mutate: rejectAdoption } = useMutation({
         mutationFn: PutAdoptionAnimalCancel,
         onSuccess: () => {
-            alert('Solicitação de adoção recusada.');
+            toast.success('Solicitação de adoção recusada.');
             refetch();
         },
         onError: () => {
-            alert('Erro ao recusar adoção.');
+            toast.error('Erro ao recusar adoção.');
         }
     });
 
@@ -51,7 +64,7 @@ const TabDonorAnimals = () => {
                     image={donation.post?.images}
                     status={donation.status}
                     title={donation.animal.name}
-                    infoLines={[donation.animal.category, calculateAnimalAge(donation.animal.bornDate)]}
+                    infoLines={[getAnimalCategoryLabel(donation.animal.category), calculateAnimalAge(donation.animal.bornDate)]}
                     showButtons={!!donation.adoptionAnimal}
                     requestName={donation.adoptionAnimal?.adopter.name}
                     requestPhone={donation.adoptionAnimal?.adopter.phone}
@@ -67,6 +80,11 @@ const TabDonorAnimals = () => {
                         }
                     }
                     }
+                    onConfirmReceipt={() => {
+                        if (donation.adoptionAnimal?.id) {
+                            ConfirmReceiptAdoption(donation.adoptionAnimal.id);
+                        }
+                    }}
                 />
             ))}
         </CardsContainer>

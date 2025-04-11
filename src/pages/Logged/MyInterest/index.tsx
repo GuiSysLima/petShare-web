@@ -10,13 +10,13 @@ const MyInterest = () => {
         <>
             <Title>MEUS INTERESSES</Title>
             <Tabs>
-                <Tab label="Animais para adoção">
+                <Tab label="Animais interessados">
                     <TabDonorAnimals />
                 </Tab>
-                <Tab label="Itens para adoção">
+                <Tab label="Itens interessados">
                     <TabDonorItem />
                 </Tab>
-                <Tab label="Solicitações de ajuda">
+                <Tab label="Solicitações de ajuda interessados">
                     <TabDonorItemHelp />
                 </Tab>
             </Tabs>

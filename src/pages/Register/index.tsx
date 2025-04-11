@@ -13,6 +13,8 @@ import { PostUser, PostUserLogin } from '../../services/queries/User'
 import { useNavigate } from 'react-router-dom'
 import { BsHeartArrow } from 'react-icons/bs'
 import { useAuth } from '../../context/AuthContext'
+import { useMutation } from '@tanstack/react-query'
+import { toast } from 'react-toastify'
 
 export const RegisterSchema = z.object({
     name: z.string().min(1, 'Nome é obrigatório'),
@@ -47,8 +49,39 @@ const Register = () => {
         mode: 'onTouched',
     })
 
-    const { trigger, handleSubmit, control } = methods
+    const { trigger, handleSubmit, getValues } = methods
     const [step, setStep] = useState(1)
+
+    const { mutate: registerUser, error } = useMutation({
+        mutationFn: (formData: FormData) => PostUser(formData),
+        onSuccess: async () => {
+            toast.success('Cadastro realizado com sucesso!');
+
+            const loginPayload = {
+                email: getValues('email'),
+                password: getValues('password'),
+            };
+
+            const { user, token } = await PostUserLogin(loginPayload);
+            login(user, token);
+            navigate('/home');
+        },
+        onError: (error: any) => {
+            // Se for erro de API com estrutura conhecida
+            if (error?.response?.data?.errors) {
+                const { errors, message } = error.response.data;
+                toast.error(message || 'Erro ao cadastrar');
+                errors.forEach((err: { fieldName: string; message: string }) => {
+                    toast.warning(`${err.fieldName}: ${err.message}`);
+                });
+            } else {
+                toast.error('Erro inesperado ao cadastrar.');
+                console.error(error);
+            }
+        },
+    });
+
+    console.error('Error:', error)
 
     const onSubmit = async (data: RegisterFormData) => {
         try {
@@ -78,16 +111,7 @@ const Register = () => {
                 type: 'application/json',
             }));
 
-            await PostUser(formData);
-
-            const loginPayload = {
-                email: data.email,
-                password: data.password,
-            };
-
-            const { user, token } = await PostUserLogin(loginPayload)
-            login(user, token)
-            navigate('/home')
+            registerUser(formData);
         } catch (error) {
             console.error('Login failed:', error)
         }
@@ -129,6 +153,7 @@ const Register = () => {
                                 <Input name='bornDate' label='Data de Nascimento' type='date' />
                                 <ButtonGroup>
                                     <Button
+                                        type='button'
                                         style={{ width: '40rem' }} primary rounded icon={<BsHeartArrow size={30} />}
                                         onClick={async () => {
                                             const isStepValid = await trigger(['phone', 'cpf', 'bornDate'])
@@ -158,6 +183,7 @@ const Register = () => {
                                 <Input name='address.state' label='Estado' />
                                 <ButtonGroup>
                                     <Button
+                                        type='button'
                                         style={{ width: '40rem' }} primary rounded icon={<FaHeart size={30} />}
                                         onClick={handleSubmit(onSubmit)}
                                     >

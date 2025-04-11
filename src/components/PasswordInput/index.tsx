@@ -31,7 +31,7 @@ const PasswordInput = ({ type, name, label, ...rest }: PasswordInputProps) => {
             <ToggleButton type="button" onClick={togglePasswordVisibility}>
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
             </ToggleButton>
-            {error && <span style={{ color: 'red', fontSize: '0.8rem' }}>{error}</span>}
+            {error && <span style={{ color: 'red', fontSize: '1rem', fontWeight: 600 }}>{error}</span>}
         </InputContainer>
     )
 }

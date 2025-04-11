@@ -12,6 +12,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { PostUserLogin } from '../../services/queries/User'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
+import { toast } from 'react-toastify'
+import { useMutation } from '@tanstack/react-query'
 
 export const SignInSchema = z.object({
     email: z.string().email('Email inválido').min(1, 'Email é obrigatório'),
@@ -33,17 +35,22 @@ const SignIn = () => {
 
     const { login } = useAuth()
 
-    const onSubmit = async (data: SignInFormData) => {
-        try {
-            const { user, token } = await PostUserLogin(data)
+    const loginMutation = useMutation({
+        mutationFn: (data: SignInFormData) => PostUserLogin(data),
+        onSuccess: ({ user, token }) => {
             login(user, token)
+            toast.success('Login realizado com sucesso!')
             navigate('/home')
-        } catch (error) {
-            console.error('Login failed:', error)
-        }
+        },
+        onError: (error: any) => {
+            const msg = error?.response?.data?.message || 'Erro ao fazer login. Verifique suas credenciais.'
+            toast.error(msg)
+        },
+    })
+
+    const onSubmit = async (data: SignInFormData) => {
+        loginMutation.mutate(data)
     }
-
-
 
     return (
         <FormProvider {...methods}>

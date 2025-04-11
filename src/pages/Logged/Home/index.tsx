@@ -6,10 +6,10 @@ import TabItems from './TabItems'
 const Home = () => {
     return (
         <Tabs>
-            <Tab label="Animais para adoção">
+            <Tab label="Animais para doação">
                 <TabAnimals />
             </Tab>
-            <Tab label="Itens para adoção">
+            <Tab label="Itens para doação">
                 <TabItems />
             </Tab>
             <Tab label="Solicitações de ajuda">
