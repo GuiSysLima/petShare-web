@@ -2,6 +2,7 @@ import { User } from "../User/interface"
 
 export type DonationStatus =
     'DISPONIVEL '
+    | 'Reservado'
     | 'EM_INTERESSE'
     | 'APROVADO'
     | 'RECUSADO'

@@ -64,7 +64,7 @@ const RequestCard = ({
     const isFromInterests = source === 'my-interests';
 
     const shouldShowApproveReject =
-        status === 'EM_INTERESSE' && isFromAds && showButtons;
+        status === 'EM_INTERESSE' || status === 'Reservado' && showButtons;
 
     const shouldShowCancel =
         status === 'EM_INTERESSE' && isFromInterests;
