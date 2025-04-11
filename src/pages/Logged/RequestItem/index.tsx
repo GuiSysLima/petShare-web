@@ -68,7 +68,6 @@ const RequestItem = () => {
 
     const onSubmit = (data: RequestItemFormData) => {
 
-        console.log(data)
         const payload: DonateItemPayload = {
             quantity: parseFloat(data.quantity),
             item: {
@@ -84,7 +83,6 @@ const RequestItem = () => {
             },
         }
 
-        console.log(payload)
         mutation.mutate(payload)
     }
 

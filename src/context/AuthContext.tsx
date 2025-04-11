@@ -28,8 +28,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         }
     }, [])
 
-    console.log('useAASASAr', user)
-
     const login = (user: User, newToken: string) => {
         localStorage.setItem('token', newToken)
         localStorage.setItem('user', JSON.stringify(user))

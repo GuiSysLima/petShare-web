@@ -80,7 +80,6 @@ const DonateAnimal = () => {
             },
         }
 
-        console.log(payload)
         mutation.mutate(payload)
     }
 
