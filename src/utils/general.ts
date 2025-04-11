@@ -67,7 +67,6 @@ const donationStatusMap: Record<string, string> = {
 
 export const getDonationStatusLabel = (key: string | undefined): string => {
     if (!key) return 'Não informado';
-    console.log('KEY', key);
     return donationStatusMap[key] || 'Outro';
 };
 

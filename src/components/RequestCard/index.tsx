@@ -19,9 +19,7 @@ import {
 import TagStatus from '../TagStatus';
 import { DonationStatus } from '../../services/queries/donateAnimals/interface';
 import { Address } from '../../services/queries/User/interface';
-import { getDonationStatusLabel } from '../../utils/general';
-import { getAnimalImage, getAnimalImagesUrl } from '../../utils/image';
-import { Images } from 'openai/resources.mjs';
+import { getAnimalImagesUrl } from '../../utils/image';
 
 interface CardItemProps {
     title: string;
