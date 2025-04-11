@@ -20,7 +20,7 @@ const TabHelp = () => {
     return (
         <ItemsContainer>
             {data.map((donation) => (
-                <ItemCard type='request' item={donation.item} />
+                <ItemCard type='request' donation={donation} />
             ))}
         </ItemsContainer>
     )
