@@ -88,3 +88,22 @@ export const AdjustContainer = styled.div`
     justify-content: center;
     cursor: pointer;
 `
+
+export const UserContainer = styled.div`
+    cursor: pointer;
+`
+
+export const UserCard = styled.div`
+    position: absolute;
+    top: 75px;
+    right: 10px;
+    background-color: white;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 10px;
+    z-index: 100;
+    width: 15%;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+`

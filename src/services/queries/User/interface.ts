@@ -1,5 +1,5 @@
 export interface Address {
-    id: number
+    id?: number
     number: string
     street: string
     neighborhood: string
@@ -9,14 +9,18 @@ export interface Address {
 }
 
 export interface User {
-    id: number
+    id?: number
     name: string
     email: string
     phone: string
     status: string
     bornDate: string
     cpf: string
-    address: Address
-    image: string | null
+    address?: Address
+    image?: string | null
 }
 
+export interface LoginPayload {
+    email: string
+    password: string
+}
