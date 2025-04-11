@@ -45,9 +45,9 @@ export interface DonateAnimalPayload {
 export interface AdoptionAnimal {
     id: number;
     date: string;
-    status: string;
+    status: DonationStatus;
     adopter: User;
-    donateAnimal: string;
+    donateAnimal: AnimalDonation;
 }
 
 export interface AnimalDonation {

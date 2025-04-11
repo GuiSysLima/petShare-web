@@ -10,6 +10,7 @@ import MyAds from '../pages/Logged/MyAds';
 import SelectedItem from '../pages/Logged/SelectedItem';
 import SelectedItemRequest from '../pages/Logged/SelectedItemRequest';
 import SelectedAnimal from '../pages/Logged/SelectedAnimal';
+import MyInterest from '../pages/Logged/MyInterest';
 
 const PetSharePrivateRoutes = () => {
     return (
@@ -23,8 +24,8 @@ const PetSharePrivateRoutes = () => {
             <Route path='/DonateItem' element={<DonateItem />} />
             <Route path='/RequestItem' element={<RequestItem />} />
             <Route path='/ads' element={<MyAds />} />
+            <Route path='/interest' element={<MyInterest />} />
             <Route path='/success' element={<Success />} />
-
             <Route path='*' element={<Navigate to='/home' />} />
         </Routes>
     );

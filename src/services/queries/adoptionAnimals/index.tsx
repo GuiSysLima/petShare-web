@@ -1,5 +1,5 @@
 import api from "../../axios"
-import { AdoptionAnimal } from "./interface"
+import { AdoptionAnimal } from "../donateAnimals/interface"
 
 export async function PostAdoptionAnimal(payload: AdoptionAnimal) {
     const { data } = await api.post('/adoptionanimals', payload)
@@ -23,5 +23,10 @@ export async function PutAdoptionAnimalConfirmReceipt(id: number) {
 
 export async function PutAdoptionAnimalCancel(id: number) {
     const { data } = await api.put(`/adoptionanimals/cancel/${id} `)
+    return data
+}
+
+export async function GetDonateAnimalByAdopterId(id: number) {
+    const { data } = await api.get<AdoptionAnimal[]>(`/adoptionanimals/adopter/${id}`)
     return data
 }

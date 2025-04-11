@@ -17,6 +17,6 @@ export async function GetRequestItemById(id: number) {
 }
 
 export async function GetRequestItemByDonorId(id: number) {
-    const { data } = await api.get<ItemDonation[]>(`/requests/donor/${id}`)
+    const { data } = await api.get<ItemDonation[]>(`/requests/user/${id}`)
     return data
 }
