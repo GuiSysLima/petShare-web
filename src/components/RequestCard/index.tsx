@@ -64,20 +64,20 @@ const RequestCard = ({
     const isFromInterests = source === 'my-interests';
 
     const shouldShowApproveReject =
-        status === 'Em interesse' && isFromAds && showButtons;
+        status === 'EM_INTERESSE' && isFromAds && showButtons;
 
     const shouldShowCancel =
-        status === 'Em interesse' && isFromInterests;
+        status === 'EM_INTERESSE' && isFromInterests;
 
     const shouldShowMessage =
-        status === 'Em espera de confirmação de doação' ||
-        status === 'Em espera de confirmação de recebimento';
+        status === 'APROVADO' ||
+        status === 'EM_ESPERA_DE_RECEBIMENTO';
 
     const getInfoMessage = () => {
         switch (status) {
-            case 'Em espera de confirmação de doação':
+            case 'EM_INTERESSE':
                 return 'Aguardando o tutor aprovar sua solicitação...';
-            case 'Em espera de confirmação de recebimento':
+            case 'EM_ESPERA_DE_RECEBIMENTO':
                 return 'Seu animal já chegou até você?';
             default:
                 return '';
@@ -134,7 +134,7 @@ const RequestCard = ({
                         <p style={{ fontWeight: 'bold', color: '#555', marginBottom: '1rem' }}>
                             {getInfoMessage()}
                         </p>
-                        {status === 'Em espera de confirmação de recebimento' && isFromInterests && (
+                        {status === 'EM_ESPERA_DE_RECEBIMENTO' && isFromInterests && (
                             <ApproveButton onClick={onConfirmReceipt}>
                                 Confirmar recebimento
                             </ApproveButton>

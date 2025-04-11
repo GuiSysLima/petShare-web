@@ -49,7 +49,7 @@ const TabDonorAnimals = () => {
             {data.map((donation) => (
                 <RequestCard key={donation.id}
                     image={donation.animal.name}
-                    status={donation.animal.status}
+                    status={donation.status}
                     title={donation.animal.name}
                     infoLines={[donation.animal.category, calculateAnimalAge(donation.animal.bornDate)]}
                     showButtons={!!donation.adoptionAnimal}

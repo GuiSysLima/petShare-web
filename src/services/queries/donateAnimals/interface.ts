@@ -5,7 +5,8 @@ export type DonationStatus =
     | 'EM_INTERESSE'
     | 'APROVADO'
     | 'RECUSADO'
-    | 'ADOTADO';
+    | 'ADOTADO'
+    | 'EM_ESPERA_DE_RECEBIMENTO';
 
 export interface Animal {
     name: string
