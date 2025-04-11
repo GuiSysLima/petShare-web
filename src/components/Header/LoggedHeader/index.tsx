@@ -41,7 +41,7 @@ const LoggedHeader = () => {
                                     <HiOutlineAdjustmentsHorizontal size={25} />
                                 </AdjustContainer>
                                 <NavItem to='/ads' active={location.pathname === '/ads'}>Meus Anuncios</NavItem>
-                                <NavItem to='#2'>Meus Interesses</NavItem>
+                                <NavItem to='/interest' active={location.pathname === '/interest'}>Meus Interesses</NavItem>
                             </NavItems>
                         </LeftOptions>
                         <RightOptions>

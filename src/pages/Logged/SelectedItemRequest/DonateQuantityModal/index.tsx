@@ -6,13 +6,14 @@ interface DonateQuantityModalProps {
     isOpen: boolean;
     onClose: () => void;
     onConfirm: (quantity: number) => void;
+    maxQuantity?: number;
 }
 
-const DonateQuantityModal = ({ isOpen, onClose, onConfirm }: DonateQuantityModalProps) => {
+const DonateQuantityModal = ({ isOpen, maxQuantity, onClose, onConfirm }: DonateQuantityModalProps) => {
     const [quantity, setQuantity] = useState<number>(1);
 
     const handleSubmit = () => {
-        if (quantity > 0) {
+        if (quantity > 0 && (!maxQuantity || quantity <= maxQuantity)) {
             onConfirm(quantity);
             onClose();
         } else {
@@ -23,11 +24,20 @@ const DonateQuantityModal = ({ isOpen, onClose, onConfirm }: DonateQuantityModal
     return (
         <Modal isOpen={isOpen} onRequestClose={onClose} enableClose>
             <h2 style={{ marginBottom: '1rem' }}>Quantas unidades deseja doar?</h2>
+            <p style={{ marginBottom: '0.5rem' }}>
+                {maxQuantity ? `Disponível: até ${maxQuantity} unidades` : ''}
+            </p>
             <input
                 type="number"
                 min={1}
+                max={maxQuantity}
                 value={quantity}
-                onChange={(e) => setQuantity(Number(e.target.value))}
+                onChange={(e) => {
+                    const value = Number(e.target.value)
+                    if (value <= (maxQuantity ?? Infinity)) {
+                        setQuantity(value)
+                    }
+                }}
                 style={{
                     width: '100%',
                     padding: '1rem',

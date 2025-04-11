@@ -94,6 +94,7 @@ const SelectedItemRequest = () => {
                     </Button>
                 </div>
                 <DonateQuantityModal
+                    maxQuantity={data.quantity}
                     isOpen={modalOpen}
                     onClose={() => setModalOpen(false)}
                     onConfirm={handleConfirmDonation}

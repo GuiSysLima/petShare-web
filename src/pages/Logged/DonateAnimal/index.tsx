@@ -96,7 +96,7 @@ const DonateAnimal = () => {
                 category: values.animal.category as Animal['category'],
             },
             post: {
-                images: data.post.images,
+                images: data.post.images.path,
             },
             userId: Number(user?.id),
         }
