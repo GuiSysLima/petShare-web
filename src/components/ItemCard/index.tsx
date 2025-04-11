@@ -4,22 +4,24 @@ import { useNavigate } from 'react-router-dom';
 import { Item, ItemDonation } from '../../services/queries/donateItems/interface';
 
 interface ItemCardProps {
-    item: Item
+    donation: ItemDonation
     type: 'item' | 'request'
 }
 
-const ItemCard = ({ type, item }: ItemCardProps) => {
+const ItemCard = ({ type, donation }: ItemCardProps) => {
 
     const navigate = useNavigate();
 
+    console.log('DONATION', donation)
+
     return (
         <>
-            <Container key={item.id} onClick={() => navigate(`/${type}/${item.id}`)}>
+            <Container key={donation.id} onClick={() => navigate(`/${type}/${donation.id}`)}>
                 <Image src="https://mlnhdk8ure5f.i.optimole.com/w:auto/h:auto/q:mauto/f:best/https://escolapingosdeluz.com.br/wp-content/uploads/2020/04/neve-pet-shop-19.jpg" alt="" />
-                <h2> {item.name} </h2>
+                <h2> {donation.item.name} </h2>
                 <ItemInformation>
-                    <h3>{item.category}</h3>
-                    <h2>{item.brand}</h2>
+                    <h3>{donation.item.category}</h3>
+                    <h2>{donation.item.brand}</h2>
                 </ItemInformation>
             </Container>
         </>
