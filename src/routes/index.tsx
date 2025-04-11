@@ -6,12 +6,15 @@ import Register from '../pages/Register';
 import { AuthProvider, useAuth } from '../context/AuthContext';
 
 const PublicRoute = ({ children }: { children: JSX.Element }) => {
-    const { isAuthenticated } = useAuth()
+    const { isAuthenticated, isAuthChecked } = useAuth();
+
+    if (!isAuthChecked) return null;
 
     if (isAuthenticated) {
         return <Navigate to="/home" />
     }
-    return children
+
+    return children;
 }
 
 

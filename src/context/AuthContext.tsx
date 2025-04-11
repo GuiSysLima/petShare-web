@@ -9,6 +9,7 @@ interface AuthContextType {
     login: (user: User, token: string) => void
     logout: () => void
     isAuthenticated: boolean
+    isAuthChecked: boolean
 }
 
 const AuthContext = createContext({} as AuthContextType)
@@ -16,6 +17,7 @@ const AuthContext = createContext({} as AuthContextType)
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [token, setToken] = useState<string | null>(null)
     const [user, setUser] = useState<User | null>(null)
+    const [isAuthChecked, setIsAuthChecked] = useState(false);
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -26,6 +28,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             setUser(JSON.parse(storedUser!))
             api.defaults.headers.common['Authorization'] = storedToken
         }
+
+        setIsAuthChecked(true);
     }, [])
 
     const login = (user: User, newToken: string) => {
@@ -45,8 +49,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         navigate('/login')
     }
 
+    const isAuthenticated = !!user && !!token;
+
     return (
-        <AuthContext.Provider value={{ user, token, login, logout, isAuthenticated: !!token }}>
+        <AuthContext.Provider value={{ user, token, login, logout, isAuthenticated, isAuthChecked }}>
             {children}
         </AuthContext.Provider>
     )

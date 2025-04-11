@@ -10,10 +10,12 @@ import { useAuth } from '../../context/AuthContext'
 const PetShare = () => {
     const navigate = useNavigate();
 
-    const { isAuthenticated } = useAuth()
+    const { isAuthenticated, isAuthChecked } = useAuth();
+
+    if (!isAuthChecked) return null;
 
     if (!isAuthenticated) {
-        return <Navigate to="/login" replace />
+        return <Navigate to="/login" replace />;
     }
 
     return (
