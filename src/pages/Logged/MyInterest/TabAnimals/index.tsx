@@ -8,6 +8,8 @@ import { GetDonateAnimalByAdopterId, PutAdoptionAnimalCancel, PutAdoptionAnimalC
 import SkeletonCardList from '../../../../components/SkeletonCard'
 import ErrorCard from '../../../../components/ErrorCard'
 import { useAuth } from '../../../../context/AuthContext'
+import { getAnimalCategoryLabel } from '../../../../utils/general'
+import { getAnimalImage, getAnimalImagesUrl } from '../../../../utils/image'
 
 const TabDonorAnimals = () => {
     const { user } = useAuth()
@@ -52,10 +54,10 @@ const TabDonorAnimals = () => {
                 (
                     <RequestCard key={donation.id}
                         source='my-interests'
-                        image={'donation.adoptionAnimal?.adopter'}
+                        image={donation.donateAnimal.post?.images}
                         status={donation.status}
                         title={donation.donateAnimal.animal.name}
-                        infoLines={[donation.donateAnimal.animal.category, calculateAnimalAge(donation.donateAnimal.animal.bornDate)]}
+                        infoLines={[getAnimalCategoryLabel(donation.donateAnimal.animal.category), calculateAnimalAge(donation.donateAnimal.animal.bornDate)]}
                         showButtons={!!donation.donateAnimal.adoptionAnimal}
                         requestName={donation.donateAnimal.adoptionAnimal?.adopter.name}
                         requestPhone={donation.donateAnimal.adoptionAnimal?.adopter.phone}

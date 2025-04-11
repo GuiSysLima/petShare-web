@@ -48,7 +48,7 @@ const TabDonorAnimals = () => {
         <CardsContainer>
             {data.map((donation) => (
                 <RequestCard key={donation.id}
-                    image={donation.animal.name}
+                    image={donation.post?.images}
                     status={donation.status}
                     title={donation.animal.name}
                     infoLines={[donation.animal.category, calculateAnimalAge(donation.animal.bornDate)]}

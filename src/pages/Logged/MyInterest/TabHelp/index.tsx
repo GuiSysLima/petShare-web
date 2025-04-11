@@ -7,6 +7,7 @@ import { GetReceivedItems, GetReceivedItemsByUserRequestId, PutReceivedItemCance
 import SkeletonCardList from '../../../../components/SkeletonCard'
 import ErrorCard from '../../../../components/ErrorCard'
 import { useAuth } from '../../../../context/AuthContext'
+import { getItemCategoryLabel } from '../../../../utils/general'
 
 const TabDonorItemHelp = () => {
     const { user } = useAuth()
@@ -48,10 +49,10 @@ const TabDonorItemHelp = () => {
                 donation.donateItem &&
                 <RequestCard key={donation.id}
                     source='my-interests'
-                    image={'aaaa'}
+                    image={donation.post?.images}
                     status={donation.status as DonationStatus}
                     title={donation.donateItem.item.name}
-                    infoLines={[donation.donateItem.item.category, donation.donateItem.item.brand, `${donation.quantity} Unidades`]}
+                    infoLines={[getItemCategoryLabel(donation.donateItem.item.category), donation.donateItem.item.brand, `${donation.quantity} Unidades`]}
                     showButtons={!!donation.donateItem.receivedItem}
                     requestName={donation.donateItem.receivedItem?.request?.name}
                     requestPhone={donation.donateItem.receivedItem?.request?.phone}

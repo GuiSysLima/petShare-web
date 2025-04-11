@@ -22,6 +22,7 @@ import { GetDonateAnimalById } from '../../../services/queries/donateAnimals'
 import { PostAdoptionAnimal } from '../../../services/queries/adoptionAnimals'
 import { useAuth } from '../../../context/AuthContext'
 import { getAnimalImage } from '../../../utils/image'
+import { getAnimalCategoryLabel, getSizeLabel } from '../../../utils/general'
 
 const SelectedAnimal = () => {
     const { id } = useParams()
@@ -99,11 +100,11 @@ const SelectedAnimal = () => {
                         <h3>Raça</h3>
                     </AnimalInformation>
                     <AnimalInformation>
-                        <span>{animal.category}</span>
+                        <span>{getAnimalCategoryLabel(animal.category)}</span>
                         <h3>Categoria</h3>
                     </AnimalInformation>
                     <AnimalInformation>
-                        <span>{animal.size}</span>
+                        <span>{getSizeLabel(animal.size)}</span>
                         <h3>Tamanho</h3>
                     </AnimalInformation>
                     <AnimalInformation>

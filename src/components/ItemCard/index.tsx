@@ -3,6 +3,7 @@ import { ItemInformation, Container, Image } from './styles'
 import { useNavigate } from 'react-router-dom';
 import { Item, ItemDonation } from '../../services/queries/donateItems/interface';
 import { getAnimalImagesUrl } from '../../utils/image';
+import { getItemCategoryLabel } from '../../utils/general';
 
 interface ItemCardProps {
     donation: ItemDonation
@@ -19,7 +20,7 @@ const ItemCard = ({ type, donation }: ItemCardProps) => {
                 <Image src={getAnimalImagesUrl(donation.post?.images)} alt="" />
                 <h2> {donation.item.name} </h2>
                 <ItemInformation>
-                    <h3>{donation.item.category}</h3>
+                    <h3>{getItemCategoryLabel(donation.item.category)}</h3>
                     <h2>{donation.item.brand}</h2>
                 </ItemInformation>
             </Container>

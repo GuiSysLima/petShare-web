@@ -21,6 +21,7 @@ import DonateQuantityModal from './DonateQuantityModal'
 import { PostReceivedItem } from '../../../services/queries/receivedItem'
 import { useAuth } from '../../../context/AuthContext'
 import { getAnimalImage } from '../../../utils/image'
+import { getItemCategoryLabel } from '../../../utils/general'
 
 const SelectedItemRequest = () => {
     const { id } = useParams()
@@ -98,7 +99,7 @@ const SelectedItemRequest = () => {
                         <h3>Marca</h3>
                     </AnimalInformation>
                     <AnimalInformation>
-                        <span>{item.category}</span>
+                        <span>{getItemCategoryLabel(item.category)}</span>
                         <h3>Categoria</h3>
                     </AnimalInformation>
                 </AnimalInformationContainer>

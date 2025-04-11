@@ -46,7 +46,7 @@ const TabDonorItemHelp = () => {
         <CardsContainer>
             {data.map((donation) => (
                 <RequestCard key={donation.id}
-                    image={'aaaa'}
+                    image={donation.post?.images}
                     status={donation.status as DonationStatus}
                     title={donation.item.name}
                     infoLines={[donation.item.category, donation.item.brand, `${donation.quantity} Unidades`]}

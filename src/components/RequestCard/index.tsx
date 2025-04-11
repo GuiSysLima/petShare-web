@@ -19,10 +19,13 @@ import {
 import TagStatus from '../TagStatus';
 import { DonationStatus } from '../../services/queries/donateAnimals/interface';
 import { Address } from '../../services/queries/User/interface';
+import { getDonationStatusLabel } from '../../utils/general';
+import { getAnimalImage, getAnimalImagesUrl } from '../../utils/image';
+import { Images } from 'openai/resources.mjs';
 
 interface CardItemProps {
     title: string;
-    image: string;
+    image: string[] | undefined;
     status: DonationStatus;
     infoLines?: string[];
     requestName?: string;
@@ -92,7 +95,7 @@ const RequestCard = ({
     return (
         <CardContainer>
             <HeaderWrapper>
-                <Image src={image} alt={title} />
+                <Image src={getAnimalImagesUrl(image)} alt={title} />
                 <MenuButton onClick={handleMenuToggle}>⋮</MenuButton>
                 {menuOpen && (
                     <Dropdown>
