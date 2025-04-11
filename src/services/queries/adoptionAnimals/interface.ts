@@ -1,4 +1,4 @@
-export interface AdoptionAnimal {
+export interface AdoptionAnimalPost {
     donateAnimalId: number
     userId: number
 }

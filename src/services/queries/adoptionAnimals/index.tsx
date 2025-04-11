@@ -1,7 +1,8 @@
 import api from "../../axios"
 import { AdoptionAnimal } from "../donateAnimals/interface"
+import { AdoptionAnimalPost } from "./interface"
 
-export async function PostAdoptionAnimal(payload: AdoptionAnimal) {
+export async function PostAdoptionAnimal(payload: AdoptionAnimalPost) {
     const { data } = await api.post('/adoptionanimals', payload)
     return data
 }
