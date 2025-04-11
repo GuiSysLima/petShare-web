@@ -1,12 +1,11 @@
 import { User } from "../User/interface"
 
 export type DonationStatus =
-    | 'Em interesse'
-    | 'Em espera de confirmação de doação'
-    | 'Em espera de confirmação de recebimento'
-    | 'Finalizada'
-    | 'Cancelada'
-    | 'Disponível para adoção';
+    'DISPONIVEL '
+    | 'EM_INTERESSE'
+    | 'APROVADO'
+    | 'RECUSADO'
+    | 'ADOTADO';
 
 export interface Animal {
     name: string

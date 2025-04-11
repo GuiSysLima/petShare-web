@@ -12,24 +12,36 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Navigate, useNavigate, useSearchParams } from 'react-router-dom'
 import { PostDonateAnimal } from '../../../services/queries/donateAnimals'
-import { Animal, DonateAnimalPayload } from '../../../services/queries/donateAnimals/interface'
+import { Animal, DonateAnimalPayload, DonationStatus } from '../../../services/queries/donateAnimals/interface'
 import { useMutation } from '@tanstack/react-query'
 import { useAuth } from '../../../context/AuthContext'
 
-export const donateAnimalSchema = z.object({
-    name: z.string().min(1, 'Nome é obrigatório'),
-    race: z.string().min(1, 'Raça é obrigatória'),
-    bornDate: z.string().min(1, 'Data de nascimento é obrigatória'),
-    sex: z.enum(['male', 'female'], { required_error: 'Sexo é obrigatório' }),
-    size: z.enum(['small', 'medium', 'large']),
+export const animalSchema = z.object({
+    name: z.string().min(1),
+    race: z.string().min(1),
+    bornDate: z.string().min(1),
     observations: z.string(),
     medicalNotes: z.string(),
-    image: z.any().optional(),
+    sex: z.enum(['male', 'female']),
+    size: z.enum(['small', 'medium', 'large']),
+    category: z.enum(['dog', 'cat', 'rodent', 'bird', 'reptile', 'other']),
+    status: z.enum(['DISPONIVEL', 'EM_INTERESSE', 'APROVADO', 'RECUSADO', 'ADOTADO']),
+})
+
+export const postSchema = z.object({
+    images: z.any(),
+})
+
+export const donateAnimalSchema = z.object({
+    animal: animalSchema,
+    userId: z.number().min(1),
+    post: postSchema,
 })
 
 export type DonateAnimalFormData = z.infer<typeof donateAnimalSchema>
 
 const DonateAnimal = () => {
+
 
     const [searchParams] = useSearchParams()
     const category = searchParams.get('category')
@@ -37,13 +49,20 @@ const DonateAnimal = () => {
 
     const navigate = useNavigate()
 
+    const { user } = useAuth()
+
     const methods = useForm<DonateAnimalFormData>({
         resolver: zodResolver(donateAnimalSchema),
+        defaultValues: {
+            animal: {
+                category: category as Animal['category'],
+                status: 'DISPONIVEL',
+            },
+            userId: Number(user?.id),
+        },
     })
 
-    const { setValue, handleSubmit } = methods
-
-    const { user } = useAuth()
+    const { getValues, handleSubmit, formState } = methods
 
     const today = new Date().toISOString().split('T')[0]
 
@@ -62,22 +81,24 @@ const DonateAnimal = () => {
     })
 
     const onSubmit = (data: DonateAnimalFormData) => {
+        const values = getValues()
+
         const payload = {
             animal: {
-                name: data.name,
-                race: data.race,
-                bornDate: data.bornDate,
-                observations: data.observations,
-                medicalNotes: data.medicalNotes,
-                sex: data.sex,
-                size: data.size,
-                category: category as Animal['category'],
-                status: 'Em aberto' as Animal['status'],
+                name: data.animal.name,
+                race: data.animal.race,
+                bornDate: data.animal.bornDate,
+                observations: data.animal.observations,
+                medicalNotes: data.animal.medicalNotes,
+                sex: data.animal.sex,
+                size: data.animal.size,
+                status: 'DISPONIVEL' as DonationStatus,
+                category: values.animal.category as Animal['category'],
+            },
+            post: {
+                images: data.post.images,
             },
             userId: Number(user?.id),
-            post: {
-                images: data.image.path,
-            },
         }
 
         mutation.mutate(payload)
@@ -88,14 +109,14 @@ const DonateAnimal = () => {
         <FormProvider {...methods}>
             <Container>
                 <DropzoneContainer>
-                    <Dropzone name='image' />
+                    <Dropzone name='post.images' />
                 </DropzoneContainer>
                 <FormContainer>
-                    <Input name='name' label='Nome' placeholder='Nome do animal' />
-                    <Input name='race' label='Raça' placeholder='Raça do animal' />
-                    <Input name='bornDate' label='Idade' type='date' max={today} placeholder='Idade do animal' />
+                    <Input name='animal.name' label='Nome' placeholder='Nome do animal' />
+                    <Input name='animal.race' label='Raça' placeholder='Raça do animal' />
+                    <Input name='animal.bornDate' label='Idade' type='date' max={today} placeholder='Idade do animal' />
                     <Radio
-                        name='sex'
+                        name='animal.sex'
                         label='Sexo do animal'
                         options={[
                             { label: 'Macho', value: 'male' },
@@ -103,7 +124,7 @@ const DonateAnimal = () => {
                         ]}
                     />
                     <Select
-                        name='size'
+                        name='animal.size'
                         label='Porte do animal'
                         options={[
                             { label: 'Pequeno', value: 'small' },
@@ -111,8 +132,8 @@ const DonateAnimal = () => {
                             { label: 'Grande', value: 'large' },
                         ]}
                     />
-                    <TextArea name='observations' label='Descrição' placeholder='Descrição do animal' />
-                    <TextArea name='medicalNotes' label='Vacinas' placeholder='Vacinas do animal' />
+                    <TextArea name='animal.observations' label='Descrição' placeholder='Descrição do animal' />
+                    <TextArea name='animal.medicalNotes' label='Vacinas' placeholder='Vacinas do animal' />
                     <Button rounded primary icon={<BiSolidDonateHeart size={25} />} style={{ width: '100%' }} onClick={handleSubmit(onSubmit)} >
                         Confirmar Doação
                     </Button>

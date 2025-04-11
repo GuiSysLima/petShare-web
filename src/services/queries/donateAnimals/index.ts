@@ -21,5 +21,9 @@ export async function GetDonateAnimalByDonorId(id: number) {
     return data
 }
 
+export async function GetDonateAnimalByAdopterId(id: number) {
+    const { data } = await api.get<AnimalDonation[]>(`/donateanimals/adopter/${id}`)
+    return data
+}
 
 
