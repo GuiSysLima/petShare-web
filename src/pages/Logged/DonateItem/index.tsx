@@ -77,7 +77,7 @@ const DonateItem = () => {
             },
             userId: Number(user?.id),
             post: {
-                images: data.image,
+                images: data.image.path,
             },
         }
 
