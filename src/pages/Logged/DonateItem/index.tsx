@@ -13,6 +13,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { DonateItemPayload, Item } from '../../../services/queries/donateItems/interface'
 import { PostDonateItem } from '../../../services/queries/donateItems'
 import { useMutation } from '@tanstack/react-query'
+import { useAuth } from '../../../context/AuthContext'
 
 export const donateItemSchema = z.object({
     name: z.string().min(1, 'Nome é obrigatório'),
@@ -48,6 +49,8 @@ const DonateItem = () => {
 
     const { setValue, handleSubmit } = methods
 
+    const { user } = useAuth()
+
     if (!category || !validCategories.includes(category)) {
         return <Navigate to="/DonateType" replace />
     }
@@ -74,7 +77,7 @@ const DonateItem = () => {
                 category: category as Item['category'],
                 status: 'Disponível para adoção'
             },
-            userId: 1,
+            userId: Number(user?.id),
             post: {
                 images: data.image,
             },

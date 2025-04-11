@@ -14,6 +14,7 @@ import { Navigate, useNavigate, useSearchParams } from 'react-router-dom'
 import { PostDonateAnimal } from '../../../services/queries/donateAnimals'
 import { Animal, DonateAnimalPayload } from '../../../services/queries/donateAnimals/interface'
 import { useMutation } from '@tanstack/react-query'
+import { useAuth } from '../../../context/AuthContext'
 
 export const donateAnimalSchema = z.object({
     name: z.string().min(1, 'Nome é obrigatório'),
@@ -41,6 +42,8 @@ const DonateAnimal = () => {
     })
 
     const { setValue, handleSubmit } = methods
+
+    const { user } = useAuth()
 
     const today = new Date().toISOString().split('T')[0]
 
@@ -71,7 +74,7 @@ const DonateAnimal = () => {
                 category: category as Animal['category'],
                 status: 'Em aberto' as Animal['status'],
             },
-            userId: 1,
+            userId: Number(user?.id),
             post: {
                 images: data.image.path,
             },

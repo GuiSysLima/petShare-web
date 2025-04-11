@@ -18,9 +18,11 @@ import { PiHeartbeatLight } from 'react-icons/pi'
 import { GetDonateAnimalById } from '../../../services/queries/donateAnimals'
 import { GetDonateItemById } from '../../../services/queries/donateItems'
 import { PostReceivedItem } from '../../../services/queries/receivedItem'
+import { useAuth } from '../../../context/AuthContext'
 
 const SelectedItem = () => {
     const { id } = useParams()
+    const { user } = useAuth()
     const navigate = useNavigate();
 
     const { data, isLoading, isError } = useQuery({
@@ -45,7 +47,7 @@ const SelectedItem = () => {
     const handleInterest = () => {
         postReceivedItem({
             donateItemId: data.id,
-            userId: 1,
+            userId: Number(user?.id),
             quantity: data.quantity
         });
     };

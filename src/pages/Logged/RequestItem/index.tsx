@@ -14,6 +14,7 @@ import { DonateItemPayload, Item } from '../../../services/queries/donateItems/i
 import { PostDonateItem } from '../../../services/queries/donateItems'
 import { useMutation } from '@tanstack/react-query'
 import { PostRequestItem } from '../../../services/queries/requestItems'
+import { useAuth } from '../../../context/AuthContext'
 
 export const requestItemSchema = z.object({
     name: z.string().min(1, 'Nome é obrigatório'),
@@ -26,6 +27,8 @@ export const requestItemSchema = z.object({
 export type RequestItemFormData = z.infer<typeof requestItemSchema>
 
 const RequestItem = () => {
+
+    const { user } = useAuth()
 
     const [searchParams] = useSearchParams()
     const category = searchParams.get('category')
@@ -75,7 +78,7 @@ const RequestItem = () => {
                 category: category as Item['category'],
                 status: 'Disponível para adoção'
             },
-            userId: 1,
+            userId: Number(user?.id),
             post: {
                 images: data.image,
             },

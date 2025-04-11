@@ -8,14 +8,15 @@ import { calculateAnimalAge } from '../../../../utils/date'
 import { PutAdoptionAnimalCancel, PutAdoptionAnimalConfirmAdoption } from '../../../../services/queries/adoptionAnimals'
 import SkeletonCardList from '../../../../components/SkeletonCard'
 import ErrorCard from '../../../../components/ErrorCard'
+import { useAuth } from '../../../../context/AuthContext'
 
 const TabDonorAnimals = () => {
-    const userId = 1
+    const { user } = useAuth()
 
     const { data, isLoading, isError, refetch } = useQuery({
-        queryKey: ['donate-animal-donor', userId],
-        queryFn: () => GetDonateAnimalByDonorId(Number(userId)),
-        enabled: !!userId,
+        queryKey: ['donate-animal-donor', user?.id],
+        queryFn: () => GetDonateAnimalByDonorId(Number(user?.id)),
+        enabled: !!user?.id,
     })
 
     const { mutate: approveAdoption } = useMutation({

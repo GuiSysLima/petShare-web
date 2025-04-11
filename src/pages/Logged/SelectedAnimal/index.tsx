@@ -17,9 +17,12 @@ import { BsClipboardHeart, BsFillClipboardHeartFill } from 'react-icons/bs'
 import { PiHeartbeatLight } from 'react-icons/pi'
 import { GetDonateAnimalById } from '../../../services/queries/donateAnimals'
 import { PostAdoptionAnimal } from '../../../services/queries/adoptionAnimals'
+import { useAuth } from '../../../context/AuthContext'
 
 const SelectedAnimal = () => {
     const { id } = useParams()
+    const { user } = useAuth()
+
     const navigate = useNavigate()
 
     const { data, isLoading, isError } = useQuery({
@@ -45,7 +48,7 @@ const SelectedAnimal = () => {
     const handleInterest = () => {
         postAdoptionAnimal({
             donateAnimalId: data.id,
-            userId: 1
+            userId: Number(user?.id),
         });
     };
 

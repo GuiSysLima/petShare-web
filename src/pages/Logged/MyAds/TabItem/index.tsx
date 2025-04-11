@@ -6,14 +6,15 @@ import { DonationStatus } from '../../../../services/queries/donateAnimals/inter
 import { PutReceivedItemCancel, PutReceivedItemConfirmAdoption } from '../../../../services/queries/receivedItem'
 import SkeletonCardList from '../../../../components/SkeletonCard'
 import ErrorCard from '../../../../components/ErrorCard'
+import { useAuth } from '../../../../context/AuthContext'
 
 const TabDonorItem = () => {
-    const userId = 1
+    const { user } = useAuth()
 
     const { data, isLoading, isError, refetch } = useQuery({
-        queryKey: ['donate-item-donor', userId],
-        queryFn: () => GetDonateItemByDonorId(Number(userId)),
-        enabled: !!userId,
+        queryKey: ['donate-item-donor', user],
+        queryFn: () => GetDonateItemByDonorId(Number(user?.id)),
+        enabled: !!user?.id,
     })
 
     const { mutate: approveDonation } = useMutation({

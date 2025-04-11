@@ -6,14 +6,15 @@ import { GetRequestItemByDonorId } from '../../../../services/queries/requestIte
 import { PutReceivedItemCancel, PutReceivedItemConfirmAdoption } from '../../../../services/queries/receivedItem'
 import SkeletonCardList from '../../../../components/SkeletonCard'
 import ErrorCard from '../../../../components/ErrorCard'
+import { useAuth } from '../../../../context/AuthContext'
 
 const TabDonorItemHelp = () => {
-    const userId = 1
+    const { user } = useAuth()
 
     const { data, isLoading, isError, refetch } = useQuery({
-        queryKey: ['request-item-donor', userId],
-        queryFn: () => GetRequestItemByDonorId(Number(userId)),
-        enabled: !!userId,
+        queryKey: ['request-item-donor', user?.id],
+        queryFn: () => GetRequestItemByDonorId(Number(user?.id)),
+        enabled: !!user?.id,
     })
 
     const { mutate: approveDonation } = useMutation({

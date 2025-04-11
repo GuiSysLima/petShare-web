@@ -16,9 +16,12 @@ import { BsClipboardHeart, BsFillClipboardHeartFill } from 'react-icons/bs'
 import { GetRequestItemById } from '../../../services/queries/requestItems'
 import DonateQuantityModal from './DonateQuantityModal'
 import { PostReceivedItem } from '../../../services/queries/receivedItem'
+import { useAuth } from '../../../context/AuthContext'
 
 const SelectedItemRequest = () => {
     const { id } = useParams()
+    const { user } = useAuth()
+
     const navigate = useNavigate();
     const [modalOpen, setModalOpen] = useState(false);
 
@@ -44,7 +47,7 @@ const SelectedItemRequest = () => {
     const handleConfirmDonation = (quantity: number) => {
         postReceivedItem({
             quantity,
-            userId: 1,
+            userId: Number(user?.id),
             requestItemId: data.id,
         });
     };
