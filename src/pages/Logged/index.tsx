@@ -4,10 +4,17 @@ import LoggedHeader from '../../components/Header/LoggedHeader'
 import PetSharePrivateRoutes from '../../routes/privateRoute'
 import Button from '../../components/Button'
 import { MdArrowBackIos } from 'react-icons/md'
-import { useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
+import { useAuth } from '../../context/AuthContext'
 
 const PetShare = () => {
     const navigate = useNavigate();
+
+    const { isAuthenticated } = useAuth()
+
+    if (!isAuthenticated) {
+        return <Navigate to="/login" replace />
+    }
 
     return (
         <>

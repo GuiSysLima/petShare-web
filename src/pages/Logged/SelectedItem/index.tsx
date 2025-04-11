@@ -46,6 +46,7 @@ const SelectedItem = () => {
         postReceivedItem({
             donateItemId: data.id,
             userId: 1,
+            quantity: data.quantity
         });
     };
 
