@@ -20,14 +20,19 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     useEffect(() => {
         const storedToken = localStorage.getItem('token')
+        const storedUser = localStorage.getItem('user')
         if (storedToken) {
             setToken(storedToken)
+            setUser(JSON.parse(storedUser!))
             api.defaults.headers.common['Authorization'] = storedToken
         }
     }, [])
 
+    console.log('useAASASAr', user)
+
     const login = (user: User, newToken: string) => {
         localStorage.setItem('token', newToken)
+        localStorage.setItem('user', JSON.stringify(user))
         api.defaults.headers.common['Authorization'] = newToken
         setToken(newToken)
         setUser(user)
@@ -35,8 +40,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     const logout = () => {
         localStorage.removeItem('token')
+        localStorage.removeItem('user')
         delete api.defaults.headers.common['Authorization']
         setToken(null)
+        setUser(null)
         navigate('/login')
     }
 
