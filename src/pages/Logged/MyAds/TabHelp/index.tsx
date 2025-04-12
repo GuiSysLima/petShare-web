@@ -3,7 +3,7 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import RequestCard from '../../../../components/RequestCard'
 import { DonationStatus } from '../../../../services/queries/donateAnimals/interface'
 import { GetRequestItemByDonorId } from '../../../../services/queries/requestItems'
-import { PutReceivedItemCancel, PutReceivedItemConfirmAdoption } from '../../../../services/queries/receivedItem'
+import { PutReceivedItemCancel, PutReceivedItemConfirmAdoption, PutReceivedItemConfirmReceipt } from '../../../../services/queries/receivedItem'
 import SkeletonCardList from '../../../../components/SkeletonCard'
 import ErrorCard from '../../../../components/ErrorCard'
 import { useAuth } from '../../../../context/AuthContext'
@@ -31,7 +31,7 @@ const TabDonorItemHelp = () => {
     });
 
     const { mutate: confirmReceiptDonation } = useMutation({
-        mutationFn: PutReceivedItemConfirmAdoption,
+        mutationFn: PutReceivedItemConfirmReceipt,
         onSuccess: () => {
             toast.success('Doação recebida com sucesso!');
             refetch();
@@ -60,13 +60,13 @@ const TabDonorItemHelp = () => {
             {data.map((donation) => (
                 <RequestCard key={donation.id}
                     image={donation.post?.images}
-                    status={donation.status as DonationStatus}
+                    status={donation.receivedItem?.status as DonationStatus ?? donation.status}
                     title={donation.item.name}
                     infoLines={[getItemCategoryLabel(donation.item.category), donation.item.brand, `${donation.quantity} Unidades`]}
                     showButtons={!!donation.receivedItem}
-                    requestName={donation.receivedItem?.request?.name}
-                    requestPhone={donation.receivedItem?.request?.phone}
-                    requestLocation={donation.receivedItem?.request?.address}
+                    requestName={donation.receivedItem?.donateItem.user?.name}
+                    requestPhone={donation.receivedItem?.donateItem.user?.phone}
+                    requestLocation={donation.receivedItem?.donateItem.user?.address}
                     onApprove={() => {
                         if (donation.receivedItem?.id) {
                             approveDonation(donation.receivedItem.id);

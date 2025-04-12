@@ -3,7 +3,7 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import RequestCard from '../../../../components/RequestCard'
 import { GetDonateItemByDonorId } from '../../../../services/queries/donateItems'
 import { DonationStatus } from '../../../../services/queries/donateAnimals/interface'
-import { GetReceivedItems, PutReceivedItemCancel, PutReceivedItemConfirmAdoption } from '../../../../services/queries/receivedItem'
+import { GetReceivedItems, PutReceivedItemCancel, PutReceivedItemConfirmAdoption, PutReceivedItemConfirmReceipt } from '../../../../services/queries/receivedItem'
 import SkeletonCardList from '../../../../components/SkeletonCard'
 import ErrorCard from '../../../../components/ErrorCard'
 import { useAuth } from '../../../../context/AuthContext'
@@ -29,6 +29,17 @@ const TabDonorItem = () => {
         },
     });
 
+    const { mutate: confirmReceiptDonation } = useMutation({
+        mutationFn: PutReceivedItemConfirmReceipt,
+        onSuccess: () => {
+            alert('Doação recebida com sucesso!');
+            refetch();
+        },
+        onError: () => {
+            alert('Erro ao aprovar a doação.');
+        },
+    });
+
     const { mutate: rejectDonation } = useMutation({
         mutationFn: PutReceivedItemCancel,
         onSuccess: () => {
@@ -49,7 +60,7 @@ const TabDonorItem = () => {
                 donation.donateItem &&
                 <RequestCard key={donation.id}
                     source='my-interests'
-                    image={donation.post?.images}
+                    image={donation.donateItem.post?.images}
                     status={donation.status as DonationStatus}
                     title={donation.donateItem.item.name}
                     infoLines={[getItemCategoryLabel(donation.donateItem.item.category), donation.donateItem.item.brand, `${donation.quantity} Unidades`]}
@@ -65,6 +76,11 @@ const TabDonorItem = () => {
                     onReject={() => {
                         if (donation.receiver?.id) {
                             rejectDonation(donation.receiver?.id);
+                        }
+                    }}
+                    onConfirmReceipt={() => {
+                        if (donation.id) {
+                            confirmReceiptDonation(donation.id);
                         }
                     }}
                 />

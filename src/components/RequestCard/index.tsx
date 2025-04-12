@@ -65,7 +65,7 @@ const RequestCard = ({
     const isFromInterests = source === 'my-interests';
 
     const shouldShowApproveReject =
-        (status === 'EM_INTERESSE' || status === 'Reservado') && isFromAds && showButtons;
+        (status === 'EM_INTERESSE' || status === 'EM_ABERTO') && isFromAds && showButtons;
 
     const shouldShowCancel =
         (status === 'EM_INTERESSE' || status === 'Reservado') && isFromInterests;
@@ -77,15 +77,14 @@ const RequestCard = ({
         status === 'ESPERANDO_CONFIRMACAO_RECEBIMENTO';
 
     const shouldShowMessage =
-        status == 'EM_INTERESSE' ||
-        shouldShowConfirmReceipt;
+        (status == 'EM_INTERESSE' || shouldShowConfirmReceipt) && isFromInterests;
 
     const getInfoMessage = () => {
         if (status === 'EM_INTERESSE') {
             return 'Aguardando o tutor aprovar sua solicitação...';
         }
         if (shouldShowConfirmReceipt) {
-            return 'Seu animal já chegou até você?';
+            return 'Já chegou até você?';
         }
         return '';
     };
@@ -140,12 +139,18 @@ const RequestCard = ({
                         <p style={{ fontWeight: 'bold', color: '#555', marginBottom: '1rem' }}>
                             {getInfoMessage()}
                         </p>
-                        {shouldShowConfirmReceipt && (
-                            <ApproveButton onClick={onConfirmReceipt}>
-                                {isFromInterests ? 'Confirmar recebimento' : 'Confirmar Entrega'}
-                            </ApproveButton>
-                        )}
+
                     </div>
+
+                )}
+                {shouldShowConfirmReceipt && (
+                    <ButtonGroup>
+                        {isFromInterests &&
+                            <ApproveButton onClick={onConfirmReceipt}>
+                                Confirmar recebimento
+                            </ApproveButton>}
+                        <RejectButton onClick={onReject}>Cancelar</RejectButton>
+                    </ButtonGroup >
                 )}
             </Content>
         </CardContainer>

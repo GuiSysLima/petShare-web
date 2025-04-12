@@ -15,7 +15,11 @@ export const getStatusColor = (status: DonationStatus): string => {
         case 'APROVADO':
             return '#27AE60';
         case 'RECUSADO':
+        case 'RECUSADA':
             return '#E74C3C';
+        case 'FINALIZADO':
+        case 'FINALIZADA':
+            return '#2980B9';
         case 'ADOTADO':
             return '#8BC34A';
         case 'EM_ESPERA_DE_RECEBIMENTO':

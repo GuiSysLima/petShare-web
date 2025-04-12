@@ -50,7 +50,7 @@ const TabDonorItemHelp = () => {
                 donation.donateItem &&
                 <RequestCard key={donation.id}
                     source='my-interests'
-                    image={donation.post?.images}
+                    image={donation.donateItem.post?.images}
                     status={donation.status as DonationStatus}
                     title={donation.donateItem.item.name}
                     infoLines={[getItemCategoryLabel(donation.donateItem.item.category), donation.donateItem.item.brand, `${donation.quantity} Unidades`]}

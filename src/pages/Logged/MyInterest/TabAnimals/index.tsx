@@ -59,9 +59,9 @@ const TabDonorAnimals = () => {
                         title={donation.donateAnimal.animal.name}
                         infoLines={[getAnimalCategoryLabel(donation.donateAnimal.animal.category), calculateAnimalAge(donation.donateAnimal.animal.bornDate)]}
                         showButtons={!!donation.donateAnimal.adoptionAnimal}
-                        requestName={donation.donateAnimal.adoptionAnimal?.adopter.name}
-                        requestPhone={donation.donateAnimal.adoptionAnimal?.adopter.phone}
-                        requestLocation={donation.donateAnimal.adoptionAnimal?.adopter.address}
+                        requestName={donation.donateAnimal.donor?.name}
+                        requestPhone={donation.donateAnimal.donor?.phone}
+                        requestLocation={donation.donateAnimal.donor?.address}
                         onConfirmReceipt={() => {
                             if (donation.donateAnimal.adoptionAnimal?.id) {
                                 approveAdoption(donation.donateAnimal.adoptionAnimal.id);
