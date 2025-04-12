@@ -25,9 +25,6 @@ const LoggedHeader = () => {
         navigate(`/requestitem?category=${category}`)
     }
 
-
-
-
     return (
         <>
             <header>
@@ -35,11 +32,13 @@ const LoggedHeader = () => {
                     <AllOptions>
                         <LeftOptions>
                             <NavItems>
-                                <NavLogo onClick={() => navigate('/home')} src={Logo} alt="Logo" />
-                                <SearchInput placeholder='Search' width='336px' />
+                                <NavItem style={{ gap: '1rem' }} to='/home'>
+                                    <NavLogo onClick={() => navigate('/home')} src={Logo} alt="Logo" />
+                                    PetShare</NavItem>
+                                {/* <SearchInput placeholder='Search' width='336px' />
                                 <AdjustContainer>
                                     <HiOutlineAdjustmentsHorizontal size={25} />
-                                </AdjustContainer>
+                                </AdjustContainer> */}
                                 <NavItem to='/ads' active={location.pathname === '/ads'}>Meus Anuncios</NavItem>
                                 <NavItem to='/interest' active={location.pathname === '/interest'}>Meus Interesses</NavItem>
                             </NavItems>
